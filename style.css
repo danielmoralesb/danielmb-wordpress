@@ -3,4 +3,14 @@ Theme Name: Daniel MB Theme
 Author: Daniel Morales B
 Author URI: https://danielmb.com
 Version: 1.0
-/*
+*/
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
