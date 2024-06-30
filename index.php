@@ -14,3 +14,5 @@ while ($count < count($teams)) {
     <?php foreach ($teams as $team) : ?>
         <li><?php echo $team; ?></li>
     <?php endforeach; ?>
+
+    <p>This is a test</p>
