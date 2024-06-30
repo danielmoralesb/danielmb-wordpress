@@ -1,13 +1,16 @@
-// {
-//   "name": "danielmb",
-//   "version": "1.0.0",
-//   "description": "This is Daniel MB Wordpress Project",
-//   "main": "index.js",
-//   "scripts": {
-//     "test": "echo \"Error: no test specified\" && exit 1",
-//     "build": "wp-scripts build",
-//     "start": "wp-scripts start"
-//   },
-//   "author": "Daniel Morales",
-//   "license": "ISC"
-// }
+{
+  "name": "danielmb",
+  "version": "1.0.0",
+  "description": "This is Daniel MB Wordpress Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scss-dev": "sass --watch --update --style=expanded scss:css",
+    "scss-prod": "sass --no-source-map --style=compressed scss:css"
+  },
+  "author": "Daniel Morales",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.77.6"
+  }
+}
