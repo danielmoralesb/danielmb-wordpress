@@ -1,6 +1,6 @@
 ::selection {
-  background: $brand-secondary;
-  color: $text-color-light;
+  background-color: $brand-primary-alt;
+  color: $text-color-tertiary;
 }
 
 body {
@@ -22,11 +22,11 @@ a {
 }
 
 p {
-  line-height: $line-height*1.25;
+  line-height: $line-height * 1.25;
   margin: $padding/2 0 0;
 
-  @include min-screen('lg') {
-    line-height: $line-height*1.6;
+  @include min-screen("lg") {
+    line-height: $line-height * 1.6;
   }
 
   a {
@@ -49,34 +49,34 @@ h6 {
 h1 {
   font-family: $title-font;
   font-weight: normal;
-  margin-bottom: $margin*1.25;
-  line-height: $line-height*.85;
-  font-size: $font-size-xl+.5;
+  margin-bottom: $margin * 1.25;
+  line-height: $line-height * 0.85;
+  font-size: $font-size-xl + 0.5;
   text-align: center;
 
-  @include min-screen('md') {
+  @include min-screen("md") {
     text-align: left;
   }
 
-  @include min-screen('lg') {
-    font-size: $font-size-xxl+2;
+  @include min-screen("lg") {
+    font-size: $font-size-xxl + 2;
   }
 }
 
 h2 {
   color: $text-color-tertiary;
   font-family: $title-font-alt;
-  font-size: $font-size-xxl+1;
+  font-size: $font-size-xxl + 1;
   font-weight: normal;
-  margin-top: $margin*3;
+  margin-top: $margin * 3;
   text-align: center;
 
-  @include min-screen('md') {
-    font-size: $font-size-xxl+2;
+  @include min-screen("md") {
+    font-size: $font-size-xxl + 2;
   }
 
-  @include min-screen('lg') {
-    font-size: $font-size-xxl+3;
+  @include min-screen("lg") {
+    font-size: $font-size-xxl + 3;
   }
 }
 
@@ -234,7 +234,7 @@ blockquote {
 .main {
   padding-top: 80px;
 
-  @include min-screen('md') {
+  @include min-screen("md") {
     padding-top: 0;
   }
 }

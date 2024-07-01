@@ -1207,8 +1207,8 @@ textarea {
   }
 }
 ::selection {
-  background: #191b28;
-  color: #fff;
+  background-color: #22253a;
+  color: #dab279;
 }
 
 body {
@@ -3193,6 +3193,18 @@ footer {
 
 .bg-color--white {
   background-color: #fff;
+}
+
+h1.wp-block-heading,
+h2.wp-block-heading,
+h3.wp-block-heading,
+h4.wp-block-heading,
+h5.wp-block-heading,
+h6.wp-block-heading {
+  font-family: "Lato", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-align: left;
 }
 
 .home-intro {
