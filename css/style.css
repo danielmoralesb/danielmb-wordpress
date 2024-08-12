@@ -1484,6 +1484,15 @@ blockquote:after {
 .btn--primary:hover:before {
   background-color: #22253a;
 }
+.btn--primary.hero__link {
+  font-size: 1rem;
+  font-weight: 900;
+  transition: all 0.15s ease;
+  text-indent: 0;
+}
+.btn--primary.hero__link:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
 .btn--secondary {
   color: #dab279;
 }
@@ -1510,6 +1519,16 @@ blockquote:after {
 .btn--secondary:hover:before {
   border-color: rgba(218, 178, 121, 0.75);
 }
+.btn--secondary.footer__link {
+  font-size: 1rem;
+  font-weight: 900;
+  padding: 0.9375rem 1.25rem;
+  transition: all 0.15s ease;
+  text-indent: 0;
+}
+.btn--secondary.footer__link:hover {
+  color: rgba(218, 178, 121, 0.75);
+}
 .btn--icon {
   background-position: center right;
   display: flex;
@@ -1528,7 +1547,7 @@ blockquote:after {
   opacity: 0.75;
 }
 .btn--icon--plus:after {
-  background-image: url("/images/icons/icon-plus.svg");
+  background-image: url("../../danielmb/images/icons/icon-plus.svg");
   background-size: 14px auto;
   height: 14px;
   width: 14px;
@@ -1543,7 +1562,7 @@ blockquote:after {
   }
 }
 .btn--icon--resume:after {
-  background-image: url("/images/icons/icon-resume.svg");
+  background-image: url("../../danielmb/images/icons/icon-resume.svg");
   background-size: 17px auto;
   height: 22px;
   width: 17px;
@@ -1564,7 +1583,7 @@ blockquote:after {
   }
 }
 .btn--icon--resume-gold:after {
-  background-image: url("/images/icons/icon-resume-gold.svg");
+  background-image: url("../../danielmb/images/icons/icon-resume-gold.svg");
   background-size: 17px auto;
   height: 22px;
   width: 17px;
@@ -1655,7 +1674,7 @@ a.btn--icon:hover:after {
   opacity: 0.75;
 }
 a.btn--icon--plus:after {
-  background-image: url("/images/icons/icon-plus.svg");
+  background-image: url("../../danielmb/images/icons/icon-plus.svg");
   background-size: 14px auto;
   height: 14px;
   width: 14px;
@@ -1670,7 +1689,7 @@ a.btn--icon--resume {
   }
 }
 a.btn--icon--resume:after {
-  background-image: url("/images/icons/icon-resume.svg");
+  background-image: url("../../danielmb/images/icons/icon-resume.svg");
   background-size: 17px auto;
   height: 22px;
   width: 17px;
@@ -1691,7 +1710,7 @@ a.btn--icon--resume-gold {
   }
 }
 a.btn--icon--resume-gold:after {
-  background-image: url("/images/icons/icon-resume-gold.svg");
+  background-image: url("../../danielmb/images/icons/icon-resume-gold.svg");
   background-size: 17px auto;
   height: 22px;
   width: 17px;
@@ -1706,6 +1725,19 @@ footer {
 @media (min-width: 768px) {
   footer {
     margin-top: 3.75rem;
+  }
+}
+footer .menu ul {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 1.25rem 0;
+}
+@media (min-width: 768px) {
+  footer .menu ul {
+    flex-direction: row;
+    padding: 0;
   }
 }
 
@@ -1783,30 +1815,41 @@ footer {
   }
 }
 
+.footer__nav--platforms .page_item,
 .footer__nav--platforms .footer__item {
   margin-bottom: 1.25rem;
 }
+.footer__nav--platforms .page_item:last-child,
 .footer__nav--platforms .footer__item:last-child {
   margin-top: 2.5rem;
   margin-bottom: 0;
 }
+.footer__nav--platforms .page_item:last-child .footer__link,
+.footer__nav--platforms .footer__item:last-child .footer__link {
+  text-indent: 0;
+}
 @media (min-width: 768px) {
+  .footer__nav--platforms .page_item,
   .footer__nav--platforms .footer__item {
     margin-bottom: 0;
   }
+  .footer__nav--platforms .page_item:last-child,
   .footer__nav--platforms .footer__item:last-child {
     margin-top: 0;
   }
+  .footer__nav--platforms .page_item:not(:first-child),
   .footer__nav--platforms .footer__item:not(:first-child) {
     margin-left: 0.625rem;
   }
 }
 @media (min-width: 1024px) {
+  .footer__nav--platforms .page_item:not(:first-child),
   .footer__nav--platforms .footer__item:not(:first-child) {
     margin-left: 1.25rem;
   }
 }
 
+.page_item a,
 .footer__link {
   color: #4a4e69;
   display: block;
@@ -1816,31 +1859,36 @@ footer {
   text-decoration: none;
   transition: all 0.5s ease;
 }
+.active .page_item a,
 .active .footer__link {
   color: #dab279;
 }
 @media (min-width: 768px) {
+  .page_item a,
   .footer__link {
     font-size: 1.25rem;
     padding: 0 0.4166666667rem;
     text-align: right;
   }
 }
+.page_item a:hover,
 .footer__link:hover {
   color: #dab279;
 }
+.footer__nav--platforms .page_item a,
 .footer__nav--platforms .footer__link {
   background-repeat: no-repeat;
+  text-indent: 9999px;
 }
 
 .footer__link--linkedin {
-  background-image: url("/images/logos/logo-linkedin-blue.svg");
+  background-image: url("../../danielmb/images/logos/logo-linkedin-blue.svg");
   background-size: auto 25px;
   height: 25px;
   width: 100px;
 }
 .footer__link--linkedin:hover {
-  background-image: url("/images/logos/logo-linkedin-gold.svg");
+  background-image: url("../../danielmb/images/logos/logo-linkedin-gold.svg");
 }
 @media (min-width: 1024px) {
   .footer__link--linkedin {
@@ -1851,13 +1899,13 @@ footer {
 }
 
 .footer__link--codepen {
-  background-image: url("/images/logos/logo-codepen-blue.svg");
+  background-image: url("../../danielmb/images/logos/logo-codepen-blue.svg");
   background-size: auto 20px;
   height: 20px;
   width: 100px;
 }
 .footer__link--codepen:hover {
-  background-image: url("/images/logos/logo-codepen-gold.svg");
+  background-image: url("../../danielmb/images/logos/logo-codepen-gold.svg");
 }
 @media (min-width: 1024px) {
   .footer__link--codepen {
@@ -1868,13 +1916,13 @@ footer {
 }
 
 .footer__link--github {
-  background-image: url("/images/logos/logo-github-blue.svg");
+  background-image: url("../../danielmb/images/logos/logo-github-blue.svg");
   background-size: auto 18px;
   height: 18px;
   width: 58px;
 }
 .footer__link--github:hover {
-  background-image: url("/images/logos/logo-github-gold.svg");
+  background-image: url("../../danielmb/images/logos/logo-github-gold.svg");
 }
 @media (min-width: 1024px) {
   .footer__link--github {
@@ -1885,13 +1933,13 @@ footer {
 }
 
 .footer__link--dribbble {
-  background-image: url("/images/logos/logo-dribbble-blue.svg");
+  background-image: url("../../danielmb/images/logos/logo-dribbble-blue.svg");
   background-size: auto 22px;
   height: 22px;
   width: 69px;
 }
 .footer__link--dribbble:hover {
-  background-image: url("/images/logos/logo-dribbble-gold.svg");
+  background-image: url("../../danielmb/images/logos/logo-dribbble-gold.svg");
 }
 @media (min-width: 1024px) {
   .footer__link--dribbble {
@@ -2051,7 +2099,7 @@ footer {
 
 .header__toggle {
   background-color: transparent;
-  background-image: url("/images/icons/icon-bars.svg");
+  background-image: url("../../danielmb/images/icons/icon-bars.svg");
   background-repeat: no-repeat;
   background-size: 24px auto;
   border: none;
@@ -2066,7 +2114,7 @@ footer {
   width: 24px;
 }
 .header--open .header__toggle {
-  background-image: url("/images/icons/icon-cross.svg");
+  background-image: url("../../danielmb/images/icons/icon-cross.svg");
   height: 22px;
 }
 @media (min-width: 768px) {
@@ -2295,6 +2343,7 @@ footer {
   text-align: center;
   text-decoration: none;
   transition: all 0.5s ease;
+  text-indent: 9999px;
 }
 @media (min-width: 768px) {
   .hero__link {
@@ -2308,13 +2357,13 @@ footer {
 }
 
 .hero__link--linkedin {
-  background-image: url("/images/logos/logo-linkedin.svg");
+  background-image: url("../../danielmb/images/logos/logo-linkedin.svg");
   background-size: auto 25px;
   height: 25px;
   width: 100px;
 }
 .hero__link--linkedin:hover {
-  background-image: url("/images/logos/logo-linkedin-blue.svg");
+  background-image: url("../../danielmb/images/logos/logo-linkedin-blue.svg");
 }
 @media (min-width: 1024px) {
   .hero__link--linkedin {
@@ -2325,13 +2374,13 @@ footer {
 }
 
 .hero__link--codepen {
-  background-image: url("/images/logos/logo-codepen.svg");
+  background-image: url("../../danielmb/images/logos/logo-codepen.svg");
   background-size: auto 20px;
   height: 20px;
   width: 100px;
 }
 .hero__link--codepen:hover {
-  background-image: url("/images/logos/logo-codepen-blue.svg");
+  background-image: url("../../danielmb/images/logos/logo-codepen-blue.svg");
 }
 @media (min-width: 1024px) {
   .hero__link--codepen {
@@ -2342,13 +2391,13 @@ footer {
 }
 
 .hero__link--github {
-  background-image: url("/images/logos/logo-github.svg");
+  background-image: url("../../danielmb/images/logos/logo-github.svg");
   background-size: auto 18px;
   height: 18px;
   width: 58px;
 }
 .hero__link--github:hover {
-  background-image: url("/images/logos/logo-github-blue.svg");
+  background-image: url("../../danielmb/images/logos/logo-github-blue.svg");
 }
 @media (min-width: 1024px) {
   .hero__link--github {
@@ -2359,13 +2408,13 @@ footer {
 }
 
 .hero__link--dribbble {
-  background-image: url("/images/logos/logo-dribbble.svg");
+  background-image: url("../../danielmb/images/logos/logo-dribbble.svg");
   background-size: auto 22px;
   height: 22px;
   width: 69px;
 }
 .hero__link--dribbble:hover {
-  background-image: url("/images/logos/logo-dribbble-blue.svg");
+  background-image: url("../../danielmb/images/logos/logo-dribbble-blue.svg");
 }
 @media (min-width: 1024px) {
   .hero__link--dribbble {
@@ -3427,7 +3476,7 @@ h6.wp-block-heading {
 }
 .capabilities__box--troubleshooting:before {
   content: "";
-  background-image: url("/images/backgrounds/bg-code-mobile@2x.jpg");
+  background-image: url("../../danielmb/images/backgrounds/bg-code-mobile@2x.jpg");
   background-position: bottom center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3440,7 +3489,7 @@ h6.wp-block-heading {
 }
 @media (min-width: 768px) {
   .capabilities__box--troubleshooting {
-    background-image: url("/images/backgrounds/bg-code@2x.png");
+    background-image: url("../../danielmb/images/backgrounds/bg-code@2x.png");
     background-position: center right -275px;
     background-size: contain;
     padding: 3.75rem 1.25rem;
@@ -3475,7 +3524,7 @@ h6.wp-block-heading {
 }
 .capabilities__box--designskills:before {
   content: "";
-  background-image: url("/images/backgrounds/bg-designs-mobile@2x.jpg");
+  background-image: url("../../danielmb/images/backgrounds/bg-designs-mobile@2x.jpg");
   background-position: bottom center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3488,7 +3537,7 @@ h6.wp-block-heading {
 }
 @media (min-width: 768px) {
   .capabilities__box--designskills {
-    background-image: url("/images/backgrounds/bg-designs@2x.png");
+    background-image: url("../../danielmb/images/backgrounds/bg-designs@2x.png");
     background-position: center left -357px;
     background-size: contain;
     padding: 3.75rem 1.25rem;
@@ -3556,7 +3605,7 @@ h6.wp-block-heading {
 }
 .capabilities__box--teamwork:before {
   content: "";
-  background-image: url("/images/backgrounds/bg-team-mobile@2x.jpg");
+  background-image: url("../../danielmb/images/backgrounds/bg-team-mobile@2x.jpg");
   background-position: bottom center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3569,7 +3618,7 @@ h6.wp-block-heading {
 }
 @media (min-width: 768px) {
   .capabilities__box--teamwork {
-    background-image: url("/images/backgrounds/bg-team@2x.png");
+    background-image: url("../../danielmb/images/backgrounds/bg-team@2x.png");
     background-position: center right -125px;
     background-size: contain;
     padding: 3.75rem 1.25rem;
