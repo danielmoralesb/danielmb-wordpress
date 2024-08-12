@@ -1859,8 +1859,8 @@ footer .menu ul {
   text-decoration: none;
   transition: all 0.5s ease;
 }
-.active .page_item a,
-.active .footer__link {
+.page_item a[aria-current=page],
+.footer__link[aria-current=page] {
   color: #dab279;
 }
 @media (min-width: 768px) {
@@ -2186,7 +2186,7 @@ footer .menu ul {
   text-decoration: none;
   transition: all 0.5s ease;
 }
-.active .header__link {
+.header__link[aria-current=page] {
   color: #dab279;
 }
 @media (min-width: 768px) {
