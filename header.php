@@ -23,27 +23,13 @@
                 </button>
             </div>
             <nav class="header__nav-wrapper">
-                <ul class="header__nav">
-                    <li class="header__item">
-                        <a href="<?php echo site_url('/about-us') ?>" class="header__link" title="About Us">
-                            <span>About</span>
-                        </a>
-                    </li>
-                    <li <?php if (get_post_type() == 'post') echo 'class=""'  ?>>
-                        <a href="<?php echo site_url('/blog') ?>" class="header__link" title="About Us">
-                            <span>Posts</span>
-                        </a>
-                    </li>
-                </ul>
+                <?php
+                $args = array(
+                    "theme_location" => 'primary',
+                    "container" => '',
+                    'items_wrap' => '<ul class="header__nav">%3$s</ul>'
+                );
+                wp_nav_menu($args) ?>
             </nav>
-            <!-- <nav class="main-navigation">
-                <ul>
-                    <li <?php if (is_page('about-us') or wp_get_post_parent_id(0) == '13') echo 'class="current-menu-item"' ?>><a href="<?php echo site_url('/about-us') ?>">About Us</a></li>
-                    <li><a href="#">Programs</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Campuses</a></li>
-                    <li <?php if (get_post_type() == 'post') echo 'class="current-menu-item"' ?>><a href="<?php echo site_url('/blog') ?>">Blog</a></li>
-                </ul>
-            </nav> -->
         </div>
     </header>
