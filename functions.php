@@ -161,6 +161,15 @@ function danielmb_register_styles()
 add_action('wp_enqueue_scripts', 'danielmb_register_styles');
 
 /**
+ * Add Editor Styles.
+ */
+function danielmb_add_editor_styles()
+{
+    wp_enqueue_style('danielmb_styles', get_template_directory_uri() . '/css/style.css');
+}
+add_action('enqueue_block_editor_assets', 'danielmb_add_editor_styles');
+
+/**
  * Register and Enqueue Scripts.
  */
 function danielmb_register_scripts()
