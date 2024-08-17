@@ -1,21 +1,6 @@
-@import "standard/vars";
-@import "mixins/mixins";
-@import "standard/normalize";
-@import "standard/grid";
-
-@import "base";
-@import "buttons";
-@import "footer";
-@import "header";
-@import "hero";
-@import "images";
-@import "projects";
-@import "project-list";
-@import "slider";
-@import "tabs";
-@import "utility";
-@import "wordpress";
-
-@import "pages/home";
-@import "pages/websites";
-@import "pages/styleguide";
+@use "base" as *;
+@use "components" as *;
+@use "layout" as *;
+@use "pages" as *;
+@use "utilities" as *;
+@use "vendors" as *;
