@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 const { registerBlockType } = wp.blocks;
-const { RichText, MediaUpload } = wp.editor;
+const { RichText, MediaUpload } = wp.blockEditor;
 const { Button } = wp.components;
 
 registerBlockType("hero-block/hero-block", {
@@ -10,24 +10,56 @@ registerBlockType("hero-block/hero-block", {
   icon: "superhero",
   category: "layout",
   attributes: {
+    isChecked: {
+      type: "boolean",
+      default: false,
+    },
     heroTitle: {
       type: "string",
     },
-    content: {
+    heroTitle2: {
       type: "string",
+    },
+    heroContent: {
+      type: "html",
     },
     imageUrl: {
       type: "string",
     },
+    linkedinUrl: {
+      type: "string",
+    },
+    codepenUrl: {
+      type: "string",
+    },
+    githubUrl: {
+      type: "string",
+    },
+    dribbbleUrl: {
+      type: "string",
+    },
+    resumeUrl: {
+      type: "string",
+    },
   },
   edit({ attributes, setAttributes }) {
-    const [isChecked, setIsChecked] = useState(false);
-    const [heroTitle, setHeroTitle] = useState(attributes.heroTitle || "");
-    const [heroContent, setHeroContent] = useState(attributes.content || "");
-    const [imageUrl, setImageUrl] = useState(attributes.imageUrl || "");
+    const [isChecked, setIsChecked] = useState(attributes.isChecked);
+    const {
+      heroTitle,
+      heroTitle2,
+      heroContent,
+      imageUrl,
+      linkedinUrl,
+      codepenUrl,
+      githubUrl,
+      dribbbleUrl,
+      resumeUrl,
+    } = attributes;
 
     const handleCheckboxChange = (event) => {
-      setIsChecked(event.target.checked);
+      const checked = event.target.checked;
+      setIsChecked(checked);
+      setAttributes({ isChecked: checked });
     };
 
     function updateHeroTitle(event) {
@@ -38,14 +70,32 @@ registerBlockType("hero-block/hero-block", {
       setAttributes({ heroTitle2: event.target.value });
     }
 
-    const handleContentChange = (content) => {
-      setHeroContent(content);
-      setAttributes({ content: content });
+    const handleContentChange = (heroContent) => {
+      setAttributes({ heroContent: heroContent });
     };
 
     const handleImageSelect = (media) => {
-      setImageUrl(media.url);
       setAttributes({ imageUrl: media.url });
+    };
+
+    const handleLinkedinUrl = (event) => {
+      setAttributes({ linkedinUrl: event.target.value });
+    };
+
+    const handleCodepenUrl = (event) => {
+      setAttributes({ codepenUrl: event.target.value });
+    };
+
+    const handleGithubUrl = (event) => {
+      setAttributes({ githubUrl: event.target.value });
+    };
+
+    const handleDribbbleUrl = (event) => {
+      setAttributes({ dribbbleUrl: event.target.value });
+    };
+
+    const handleResumeUrl = (event) => {
+      setAttributes({ resumeUrl: event.target.value });
     };
 
     return (
@@ -65,17 +115,17 @@ registerBlockType("hero-block/hero-block", {
           <label htmlFor="heroTitle">Hero Title:</label>
           <input
             id="heroTitle"
-            value={attributes.heroTitle}
+            value={heroTitle}
             onChange={updateHeroTitle}
             type="text"
           />
         </div>
-        {isChecked && (
+        {attributes.isChecked && (
           <div class="form-group">
             <label htmlFor="heroTitle2">Hero Title 2:</label>
             <input
               id="heroTitle2"
-              value={attributes.heroTitle2}
+              value={heroTitle2}
               onChange={updateHeroTitle2}
               type="text"
             />
@@ -106,18 +156,69 @@ registerBlockType("hero-block/hero-block", {
             )}
           />
         </div>
+        <div className="form-group">
+          <label htmlFor="linkedinUrl">Linkedin URL:</label>
+          <input
+            id="linkedinUrl"
+            value={linkedinUrl}
+            onChange={handleLinkedinUrl}
+            type="url"
+            pattern="https://.*"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="codepenUrl">Codepen URL:</label>
+          <input
+            id="codepenUrl"
+            value={codepenUrl}
+            onChange={handleCodepenUrl}
+            type="url"
+            pattern="https://.*"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="githubUrl">Github URL:</label>
+          <input
+            id="githubUrl"
+            value={githubUrl}
+            onChange={handleGithubUrl}
+            type="url"
+            pattern="https://.*"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="dribbbleUrl">Dribbble URL:</label>
+          <input
+            id="dribbbleUrl"
+            value={dribbbleUrl}
+            onChange={handleDribbbleUrl}
+            type="url"
+            pattern="https://.*"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="resumeUrl">Resume URL</label>
+          <input
+            id="resumeURL"
+            value={resumeUrl}
+            onChange={handleResumeUrl}
+            type="text"
+          />
+        </div>
       </div>
     );
   },
   save({ attributes }) {
     return (
       <section class="hero">
-        <div>
+        <div class="hero__content">
           <div class="hero__inner">
             <div class="hero__text">
               <h1>
                 <span class="block--xs">{attributes.heroTitle}</span>
-                <span class="block--xs">{attributes.heroTitle2}</span>
+                {attributes.isChecked && (
+                  <span class="block--xs">{attributes.heroTitle2}</span>
+                )}
               </h1>
             </div>
             <div class="hero__image">
@@ -126,65 +227,75 @@ registerBlockType("hero-block/hero-block", {
               )}
             </div>
           </div>
-          <RichText.Content tagName="p" value={attributes.content} />
+          <RichText.Content tagName="p" value={attributes.heroContent} />
         </div>
         <nav class="hero__nav-wrapper">
           <ul class="hero__nav">
-            <li class="hero__item">
-              <a
-                href="https://www.linkedin.com/in/danielmoralesb/"
-                class="hero__link hero__link--linkedin"
-                title="linkedin"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span class="sr-only">linkedin</span>
-              </a>
-            </li>
-            <li class="hero__item">
-              <a
-                href="https://codepen.io/danielmoralesportfolio"
-                class="hero__link hero__link--codepen"
-                title="codepen"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span class="sr-only">codepen</span>
-              </a>
-            </li>
-            <li class="hero__item">
-              <a
-                href="https://github.com/danielmoralesb"
-                class="hero__link hero__link--github"
-                title="github"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span class="sr-only">github</span>
-              </a>
-            </li>
-            <li class="hero__item">
-              <a
-                href="https://dribbble.com/"
-                class="hero__link hero__link--dribbble"
-                title="dribbble"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span class="sr-only">dribbble</span>
-              </a>
-            </li>
-            <li class="hero__item">
-              <a
-                href="/Daniel_Morales_Resume_2024.pdf"
-                class="btn btn--primary btn--icon btn--icon--resume"
-                title="Resume"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Resume
-              </a>
-            </li>
+            {attributes.linkedinUrl && (
+              <li class="hero__item">
+                <a
+                  href={attributes.linkedinUrl}
+                  class="hero__link hero__link--linkedin"
+                  title="linkedin"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <span class="sr-only">linkedin</span>
+                </a>
+              </li>
+            )}
+            {attributes.codepenUrl && (
+              <li class="hero__item">
+                <a
+                  href={attributes.codepenUrl}
+                  class="hero__link hero__link--codepen"
+                  title="codepen"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <span class="sr-only">codepen</span>
+                </a>
+              </li>
+            )}
+            {attributes.githubUrl && (
+              <li class="hero__item">
+                <a
+                  href={attributes.githubUrl}
+                  class="hero__link hero__link--github"
+                  title="github"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <span class="sr-only">github</span>
+                </a>
+              </li>
+            )}
+            {attributes.dribbbleUrl && (
+              <li class="hero__item">
+                <a
+                  href={attributes.dribbbleUrl}
+                  class="hero__link hero__link--dribbble"
+                  title="dribbble"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <span class="sr-only">dribbble</span>
+                </a>
+              </li>
+            )}
+            {attributes.resumeUrl && (
+              <li class="hero__item">
+                <a
+                  href={attributes.resumeUrl}
+                  class="btn btn--primary btn--icon btn--icon--resume"
+                  title="Resume"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Resume
+                </a>
+              </li>
+            )}
           </ul>
         </nav>
       </section>
