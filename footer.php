@@ -22,14 +22,13 @@
             wp_nav_menu($args);
             ?>
         </nav>
-    </div>
-
-    <div class="footer__copyright-sitemap">
-        <p>
-            <a href="<?php echo site_url('/privacy-policy') ?>">Privacy Policy</a>
-            |
-            <span>&copy; <?php echo date('Y'); ?> <?php echo get_bloginfo('name'); ?>. <?php echo __('All Rights Reserved.', 'redirectmedia'); ?></span>
-        </p>
+        <div class="footer__copyright-sitemap">
+            <p>
+                <a href="<?php echo site_url('/privacy-policy') ?>">Privacy Policy</a>
+                |
+                <span>&copy; <?php echo date('Y'); ?> <?php echo get_bloginfo('name'); ?>. <?php echo __('All Rights Reserved.', 'redirectmedia'); ?></span>
+            </p>
+        </div>
     </div>
 </footer>
 

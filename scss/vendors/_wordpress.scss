@@ -6,10 +6,135 @@ h3,
 h4,
 h5,
 h6 {
-  &.wp-block-heading {
+  &.wp-block-heading,
+  &.block-editor-inserter__panel-title {
     font-family: $body-font;
     font-size: $font-size-lg;
     font-weight: $font-weight-black;
     text-align: left;
+  }
+}
+
+.admin-container {
+  background-color: #f0f0f1;
+  padding: $padding * 2 $padding;
+}
+
+.dmb-block {
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.1);
+}
+
+.dmb-block__header {
+  background-color: $brand-primary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px 8px 0 0;
+  min-height: 64px;
+  padding: 0 $padding * 2;
+
+  h2 {
+    color: $text-color-light;
+    font-family: $font-lato;
+    font-size: $font-size-md + 0.05;
+    font-weight: $font-weight-black;
+    margin: 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
+
+    &:before {
+      background-image: url("#{$path-img}/icons/icon-hero.svg");
+      content: "";
+      display: inline-block;
+      margin-right: $padding * 0.5;
+      width: $padding * 1.25;
+      height: $padding * 1.25;
+    }
+  }
+
+  button {
+    background-color: transparent;
+    background-image: url("#{$path-img}/icons/icon-chevron-down.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    color: $white;
+    width: $padding * 1.25;
+    height: $padding * 1.25;
+  }
+}
+
+.dmb-block__main {
+  background-color: $white;
+  border-radius: 0 0 8px 8px;
+  color: $text-color-medium;
+  padding: 0 $padding * 2;
+}
+
+.dmb-field {
+  display: grid;
+  grid-column-gap: $padding * 3;
+  padding: $padding * 1.25 0;
+
+  @include min-screen("md") {
+    grid-template-columns: 1fr 1.5fr;
+  }
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid $light-gray;
+  }
+
+  &.dmb-field__has-subfield {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dmb-subfield {
+  display: grid;
+  grid-column-gap: $padding * 3;
+
+  @include min-screen("md") {
+    grid-template-columns: 1fr 1.5fr;
+  }
+
+  &:not(:last-of-type) {
+    padding: 0 0 $padding;
+  }
+}
+
+.dmb-label {
+  label,
+  .label-style {
+    color: $text-color-dark;
+    font-weight: $font-weight-bold;
+    margin: 0 0 $padding;
+  }
+
+  p {
+    color: $text-color-dark;
+    font-size: $font-size-sm;
+  }
+}
+
+.dmb-input {
+  input,
+  textarea {
+    background-color: $gray;
+    border: 1px solid $light-gray;
+    border-radius: 5px;
+    font-size: $font-size-sm;
+    padding: $padding * 0.5;
+
+    .dmb-field__has-multiple-inputs & {
+      &:not(:last-of-type) {
+        margin-bottom: $padding;
+      }
+    }
+  }
+  input[type="text"],
+  input[type="url"],
+  textarea {
+    width: 75%;
   }
 }
