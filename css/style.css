@@ -315,14 +315,14 @@ blockquote:before {
   z-index: 0;
   top: 2.5rem;
   left: 2.5rem;
-  color: #7c8a9a;
+  color: #edeef4;
   opacity: 0.25;
 }
 blockquote:after {
   content: "";
   width: 1rem;
   height: 100%;
-  background: #7c8a9a;
+  background: #edeef4;
   position: absolute;
   top: 0;
   left: 0;
@@ -3842,16 +3842,138 @@ footer .menu ul {
   background-color: #fff;
 }
 
-h1.wp-block-heading,
+.white-bg {
+  background-color: #fff;
+}
+
+h1.wp-block-heading, h1.block-editor-inserter__panel-title,
 h2.wp-block-heading,
+h2.block-editor-inserter__panel-title,
 h3.wp-block-heading,
+h3.block-editor-inserter__panel-title,
 h4.wp-block-heading,
+h4.block-editor-inserter__panel-title,
 h5.wp-block-heading,
-h6.wp-block-heading {
+h5.block-editor-inserter__panel-title,
+h6.wp-block-heading,
+h6.block-editor-inserter__panel-title {
   font-family: "Lato", sans-serif;
   font-size: 1.5rem;
   font-weight: 900;
   text-align: left;
+}
+
+.admin-container {
+  background-color: #f0f0f1;
+  padding: 2.5rem 1.25rem;
+}
+
+.dmb-block {
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.1);
+}
+
+.dmb-block__header {
+  background-color: #323550;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px 8px 0 0;
+  min-height: 64px;
+  padding: 0 2.5rem;
+}
+.dmb-block__header h2 {
+  color: #fff;
+  font-family: "Lato", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 900;
+  margin: 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+.dmb-block__header h2:before {
+  background-image: url("../../danielmb/images/icons/icon-hero.svg");
+  content: "";
+  display: inline-block;
+  margin-right: 0.625rem;
+  width: 1.5625rem;
+  height: 1.5625rem;
+}
+.dmb-block__header button {
+  background-color: transparent;
+  background-image: url("../../danielmb/images/icons/icon-chevron-down.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  color: #fff;
+  width: 1.5625rem;
+  height: 1.5625rem;
+}
+
+.dmb-block__main {
+  background-color: #fff;
+  border-radius: 0 0 8px 8px;
+  color: #edeef4;
+  padding: 0 2.5rem;
+}
+
+.dmb-field {
+  display: grid;
+  grid-column-gap: 3.75rem;
+  padding: 1.5625rem 0;
+}
+@media (min-width: 768px) {
+  .dmb-field {
+    grid-template-columns: 1fr 1.5fr;
+  }
+}
+.dmb-field:not(:last-of-type) {
+  border-bottom: 1px solid #cecfd5;
+}
+.dmb-field.dmb-field__has-subfield {
+  grid-template-columns: 1fr;
+}
+
+.dmb-subfield {
+  display: grid;
+  grid-column-gap: 3.75rem;
+}
+@media (min-width: 768px) {
+  .dmb-subfield {
+    grid-template-columns: 1fr 1.5fr;
+  }
+}
+.dmb-subfield:not(:last-of-type) {
+  padding: 0 0 1.25rem;
+}
+
+.dmb-label label,
+.dmb-label .label-style {
+  color: #02040c;
+  font-weight: 700;
+  margin: 0 0 1.25rem;
+}
+.dmb-label p {
+  color: #02040c;
+  font-size: 0.75rem;
+}
+
+.dmb-input input,
+.dmb-input textarea {
+  background-color: #edeef4;
+  border: 1px solid #cecfd5;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  padding: 0.625rem;
+}
+.dmb-field__has-multiple-inputs .dmb-input input:not(:last-of-type),
+.dmb-field__has-multiple-inputs .dmb-input textarea:not(:last-of-type) {
+  margin-bottom: 1.25rem;
+}
+.dmb-input input[type=text],
+.dmb-input input[type=url],
+.dmb-input textarea {
+  width: 75%;
 }
 
 /*# sourceMappingURL=style.css.map */
