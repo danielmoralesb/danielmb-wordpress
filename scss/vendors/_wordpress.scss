@@ -75,10 +75,10 @@ h6 {
 .dmb-field {
   display: grid;
   grid-column-gap: $padding * 3;
-  padding: $padding * 1.25 0;
+  padding: $padding * 1.5 0;
 
   @include min-screen("md") {
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: 1fr 1.25fr;
   }
 
   &:not(:last-of-type) {
@@ -95,15 +95,21 @@ h6 {
   grid-column-gap: $padding * 3;
 
   @include min-screen("md") {
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: 1fr 1.25fr;
   }
 
   &:not(:last-of-type) {
-    padding: 0 0 $padding;
+    padding: 0 0 $padding * 1.5;
   }
 }
 
 .dmb-label {
+  margin-bottom: $margin;
+
+  @include min-screen("md") {
+    margin-bottom: 0;
+  }
+
   label,
   .label-style {
     color: $text-color-dark;
@@ -114,27 +120,60 @@ h6 {
   p {
     color: $text-color-dark;
     font-size: $font-size-sm;
+    line-height: 1.25em;
   }
 }
 
 .dmb-input {
-  input,
+  input[type="text"],
+  input[type="url"],
   textarea {
     background-color: $gray;
     border: 1px solid $light-gray;
     border-radius: 5px;
     font-size: $font-size-sm;
     padding: $padding * 0.5;
+    resize: vertical;
+    width: 100%;
 
     .dmb-field__has-multiple-inputs & {
       &:not(:last-of-type) {
         margin-bottom: $padding;
       }
     }
+
+    &:focus {
+      border-color: $brand-primary;
+    }
+
+    &:focus-visible {
+      outline-color: $brand-primary;
+    }
+
+    @include min-screen("md") {
+      width: 75%;
+    }
   }
-  input[type="text"],
-  input[type="url"],
-  textarea {
-    width: 75%;
+
+  input[type="file"] {
+    width: 100%;
+
+    &::file-selector-button {
+      background-color: $brand-primary;
+      color: $text-color-light;
+      font-size: $font-size-sm;
+      padding: $padding * 0.5;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.16);
+      box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+      margin-right: $margin;
+      transition: background-color 200ms;
+
+      &:hover,
+      &:active {
+        background-color: $brand-primary-alt;
+      }
+    }
   }
 }
