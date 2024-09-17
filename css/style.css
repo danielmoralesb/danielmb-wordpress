@@ -421,6 +421,11 @@ blockquote:after {
   height: auto;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 .main {
   padding-top: 80px;
 }
@@ -1129,7 +1134,6 @@ footer .menu ul {
 .footer__nav--platforms .page_item a,
 .footer__nav--platforms .footer__link {
   background-repeat: no-repeat;
-  text-indent: 9999px;
 }
 
 .footer__link--linkedin {
@@ -1594,7 +1598,6 @@ footer .menu ul {
   text-align: center;
   text-decoration: none;
   transition: all 0.5s ease;
-  text-indent: 9999px;
 }
 @media (min-width: 768px) {
   .hero__link {
@@ -3920,11 +3923,11 @@ h6.block-editor-inserter__panel-title {
 .dmb-field {
   display: grid;
   grid-column-gap: 3.75rem;
-  padding: 1.5625rem 0;
+  padding: 1.875rem 0;
 }
 @media (min-width: 768px) {
   .dmb-field {
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: 1fr 1.25fr;
   }
 }
 .dmb-field:not(:last-of-type) {
@@ -3940,13 +3943,21 @@ h6.block-editor-inserter__panel-title {
 }
 @media (min-width: 768px) {
   .dmb-subfield {
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: 1fr 1.25fr;
   }
 }
 .dmb-subfield:not(:last-of-type) {
-  padding: 0 0 1.25rem;
+  padding: 0 0 1.875rem;
 }
 
+.dmb-label {
+  margin-bottom: 1.25rem;
+}
+@media (min-width: 768px) {
+  .dmb-label {
+    margin-bottom: 0;
+  }
+}
 .dmb-label label,
 .dmb-label .label-style {
   color: #02040c;
@@ -3956,24 +3967,59 @@ h6.block-editor-inserter__panel-title {
 .dmb-label p {
   color: #02040c;
   font-size: 0.75rem;
+  line-height: 1.25em;
 }
 
-.dmb-input input,
+.dmb-input input[type=text],
+.dmb-input input[type=url],
 .dmb-input textarea {
   background-color: #edeef4;
   border: 1px solid #cecfd5;
   border-radius: 5px;
   font-size: 0.75rem;
   padding: 0.625rem;
+  resize: vertical;
+  width: 100%;
 }
-.dmb-field__has-multiple-inputs .dmb-input input:not(:last-of-type),
+.dmb-field__has-multiple-inputs .dmb-input input[type=text]:not(:last-of-type),
+.dmb-field__has-multiple-inputs .dmb-input input[type=url]:not(:last-of-type),
 .dmb-field__has-multiple-inputs .dmb-input textarea:not(:last-of-type) {
   margin-bottom: 1.25rem;
 }
-.dmb-input input[type=text],
-.dmb-input input[type=url],
-.dmb-input textarea {
-  width: 75%;
+.dmb-input input[type=text]:focus,
+.dmb-input input[type=url]:focus,
+.dmb-input textarea:focus {
+  border-color: #323550;
+}
+.dmb-input input[type=text]:focus-visible,
+.dmb-input input[type=url]:focus-visible,
+.dmb-input textarea:focus-visible {
+  outline-color: #323550;
+}
+@media (min-width: 768px) {
+  .dmb-input input[type=text],
+  .dmb-input input[type=url],
+  .dmb-input textarea {
+    width: 75%;
+  }
+}
+.dmb-input input[type=file] {
+  width: 100%;
+}
+.dmb-input input[type=file]::file-selector-button {
+  background-color: #323550;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.625rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  margin-right: 1.25rem;
+  transition: background-color 200ms;
+}
+.dmb-input input[type=file]::file-selector-button:hover, .dmb-input input[type=file]::file-selector-button:active {
+  background-color: #22253a;
 }
 
 /*# sourceMappingURL=style.css.map */

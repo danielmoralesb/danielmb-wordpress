@@ -17,7 +17,7 @@
                 'menu' => 'Footer Platforms Menu',
                 'container' => '',
                 'items_wrap' => '<ul class="footer__nav footer__nav--platforms">%3$s</ul>',
-                'menu_class' => 'custom-menu-class' // Add your custom class here
+                'menu_class' => 'custom-menu-class'
             );
             wp_nav_menu($args);
             ?>
