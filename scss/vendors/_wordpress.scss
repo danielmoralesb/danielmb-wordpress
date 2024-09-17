@@ -1,5 +1,9 @@
 @use "../abstracts" as *;
 
+html :where(.editor-styles-wrapper) {
+  background-color: $dark-white;
+}
+
 h1,
 h2,
 h3,
@@ -16,12 +20,61 @@ h6 {
 }
 
 .admin-container {
-  background-color: #f0f0f1;
+  background-color: $dark-white;
   padding: $padding * 2 $padding;
 }
 
 .dmb-block {
+  border-radius: 8px;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.1);
+
+  .block-editor-rich-text__editable.rich-text {
+    background-color: $gray;
+    border: 1px solid $light-gray;
+    border-radius: 5px;
+    color: $text-color-primary-light;
+    font-size: $font-size-sm;
+    padding: $padding * 0.5;
+    resize: vertical;
+    width: 100%;
+
+    .dmb-field--has-multiple-inputs & {
+      &:not(:last-of-type) {
+        margin-bottom: $padding;
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 1px solid $brand-primary;
+    }
+
+    @include min-screen("md") {
+      width: 75%;
+    }
+  }
+
+  .components-button,
+  .dmb-block-btn {
+    background-color: $brand-primary;
+    border: none;
+    color: $text-color-light;
+    font-size: $font-size-sm;
+    padding: $padding * 0.5;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: $margin;
+    @include transition($transition-time: 0.15s);
+
+    &:hover,
+    &:active {
+      background-color: $brand-primary-alt;
+      color: rgba($text-color-light, 0.75);
+    }
+  }
 }
 
 .dmb-block__header {
@@ -65,11 +118,15 @@ h6 {
   }
 }
 
-.dmb-block__main {
+.dmb-block-fields {
   background-color: $white;
   border-radius: 0 0 8px 8px;
   color: $text-color-medium;
   padding: 0 $padding * 2;
+
+  .is-closed {
+    display: none;
+  }
 }
 
 .dmb-field {
@@ -85,7 +142,7 @@ h6 {
     border-bottom: 1px solid $light-gray;
   }
 
-  &.dmb-field__has-subfield {
+  &.dmb-field--has-subfield {
     grid-template-columns: 1fr;
   }
 }
@@ -118,7 +175,7 @@ h6 {
   }
 
   p {
-    color: $text-color-dark;
+    color: $text-color-primary-light;
     font-size: $font-size-sm;
     line-height: 1.25em;
   }
@@ -131,23 +188,24 @@ h6 {
     background-color: $gray;
     border: 1px solid $light-gray;
     border-radius: 5px;
+    color: $text-color-primary-light;
     font-size: $font-size-sm;
     padding: $padding * 0.5;
     resize: vertical;
     width: 100%;
 
-    .dmb-field__has-multiple-inputs & {
+    .dmb-field--has-multiple-inputs & {
       &:not(:last-of-type) {
         margin-bottom: $padding;
       }
     }
 
     &:focus {
-      border-color: $brand-primary;
+      outline: none;
     }
 
     &:focus-visible {
-      outline-color: $brand-primary;
+      outline: 1px solid $brand-primary;
     }
 
     @include min-screen("md") {
@@ -160,20 +218,26 @@ h6 {
 
     &::file-selector-button {
       background-color: $brand-primary;
+      border: none;
       color: $text-color-light;
       font-size: $font-size-sm;
       padding: $padding * 0.5;
       border-radius: 4px;
       cursor: pointer;
-      border: 1px solid rgba(0, 0, 0, 0.16);
-      box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
       margin-right: $margin;
-      transition: background-color 200ms;
+      @include transition($transition-time: 0.15s);
 
       &:hover,
       &:active {
         background-color: $brand-primary-alt;
+        color: rgba($text-color-light, 0.75);
       }
     }
+  }
+}
+
+.dmb-selected-image {
+  @include min-screen("md") {
+    width: 75%;
   }
 }

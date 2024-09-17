@@ -3849,6 +3849,10 @@ footer .menu ul {
   background-color: #fff;
 }
 
+html :where(.editor-styles-wrapper) {
+  background-color: #f0f0f1;
+}
+
 h1.wp-block-heading, h1.block-editor-inserter__panel-title,
 h2.wp-block-heading,
 h2.block-editor-inserter__panel-title,
@@ -3872,7 +3876,50 @@ h6.block-editor-inserter__panel-title {
 }
 
 .dmb-block {
+  border-radius: 8px;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.1);
+}
+.dmb-block .block-editor-rich-text__editable.rich-text {
+  background-color: #edeef4;
+  border: 1px solid #cecfd5;
+  border-radius: 5px;
+  color: #4a4e69;
+  font-size: 0.75rem;
+  padding: 0.625rem;
+  resize: vertical;
+  width: 100%;
+}
+.dmb-field--has-multiple-inputs .dmb-block .block-editor-rich-text__editable.rich-text:not(:last-of-type) {
+  margin-bottom: 1.25rem;
+}
+.dmb-block .block-editor-rich-text__editable.rich-text:focus {
+  outline: none;
+}
+.dmb-block .block-editor-rich-text__editable.rich-text:focus-visible {
+  outline: 1px solid #323550;
+}
+@media (min-width: 768px) {
+  .dmb-block .block-editor-rich-text__editable.rich-text {
+    width: 75%;
+  }
+}
+.dmb-block .components-button,
+.dmb-block .dmb-block-btn {
+  background-color: #323550;
+  border: none;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.625rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 1.25rem;
+  transition: all 0.15s ease;
+}
+.dmb-block .components-button:hover, .dmb-block .components-button:active,
+.dmb-block .dmb-block-btn:hover,
+.dmb-block .dmb-block-btn:active {
+  background-color: #22253a;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .dmb-block__header {
@@ -3913,11 +3960,14 @@ h6.block-editor-inserter__panel-title {
   height: 1.5625rem;
 }
 
-.dmb-block__main {
+.dmb-block-fields {
   background-color: #fff;
   border-radius: 0 0 8px 8px;
   color: #edeef4;
   padding: 0 2.5rem;
+}
+.dmb-block-fields .is-closed {
+  display: none;
 }
 
 .dmb-field {
@@ -3933,7 +3983,7 @@ h6.block-editor-inserter__panel-title {
 .dmb-field:not(:last-of-type) {
   border-bottom: 1px solid #cecfd5;
 }
-.dmb-field.dmb-field__has-subfield {
+.dmb-field.dmb-field--has-subfield {
   grid-template-columns: 1fr;
 }
 
@@ -3965,7 +4015,7 @@ h6.block-editor-inserter__panel-title {
   margin: 0 0 1.25rem;
 }
 .dmb-label p {
-  color: #02040c;
+  color: #4a4e69;
   font-size: 0.75rem;
   line-height: 1.25em;
 }
@@ -3976,25 +4026,26 @@ h6.block-editor-inserter__panel-title {
   background-color: #edeef4;
   border: 1px solid #cecfd5;
   border-radius: 5px;
+  color: #4a4e69;
   font-size: 0.75rem;
   padding: 0.625rem;
   resize: vertical;
   width: 100%;
 }
-.dmb-field__has-multiple-inputs .dmb-input input[type=text]:not(:last-of-type),
-.dmb-field__has-multiple-inputs .dmb-input input[type=url]:not(:last-of-type),
-.dmb-field__has-multiple-inputs .dmb-input textarea:not(:last-of-type) {
+.dmb-field--has-multiple-inputs .dmb-input input[type=text]:not(:last-of-type),
+.dmb-field--has-multiple-inputs .dmb-input input[type=url]:not(:last-of-type),
+.dmb-field--has-multiple-inputs .dmb-input textarea:not(:last-of-type) {
   margin-bottom: 1.25rem;
 }
 .dmb-input input[type=text]:focus,
 .dmb-input input[type=url]:focus,
 .dmb-input textarea:focus {
-  border-color: #323550;
+  outline: none;
 }
 .dmb-input input[type=text]:focus-visible,
 .dmb-input input[type=url]:focus-visible,
 .dmb-input textarea:focus-visible {
-  outline-color: #323550;
+  outline: 1px solid #323550;
 }
 @media (min-width: 768px) {
   .dmb-input input[type=text],
@@ -4008,18 +4059,24 @@ h6.block-editor-inserter__panel-title {
 }
 .dmb-input input[type=file]::file-selector-button {
   background-color: #323550;
+  border: none;
   color: #fff;
   font-size: 0.75rem;
   padding: 0.625rem;
   border-radius: 4px;
   cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.16);
-  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
   margin-right: 1.25rem;
-  transition: background-color 200ms;
+  transition: all 0.15s ease;
 }
 .dmb-input input[type=file]::file-selector-button:hover, .dmb-input input[type=file]::file-selector-button:active {
   background-color: #22253a;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+@media (min-width: 768px) {
+  .dmb-selected-image {
+    width: 75%;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
