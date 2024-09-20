@@ -98,112 +98,198 @@ registerBlockType("hero-block/hero-block", {
       setAttributes({ resumeUrl: event.target.value });
     };
 
+    const [isClosed, setIsClosed] = useState(false);
+
+    const toggleDmbBlock = () => {
+      setIsClosed(!isClosed);
+    };
+
+    const blockClassName = `${isClosed ? "is-closed" : ""}`;
+
     return (
-      <div className="form-container">
-        <div className="form-group">
-          <label htmlFor="heroTitleLines">
-            Does the Hero Title have multiple lines?
-          </label>
-          <input
-            id="heroTitleLines"
-            type="checkbox"
-            checked={isChecked}
-            onChange={handleCheckboxChange}
-          />
+      <div className={`dmb-block ${blockClassName}`}>
+        <div class="dmb-block__header">
+          <h2>Hero Component</h2>
+          <button onClick={toggleDmbBlock}>
+            <span class="sr-only">Toggle Panel</span>
+          </button>
         </div>
-        <div class="form-group">
-          <label htmlFor="heroTitle">Hero Title:</label>
-          <input
-            id="heroTitle"
-            value={heroTitle}
-            onChange={updateHeroTitle}
-            type="text"
-          />
-        </div>
-        {attributes.isChecked && (
-          <div class="form-group">
-            <label htmlFor="heroTitle2">Hero Title 2:</label>
-            <input
-              id="heroTitle2"
-              value={heroTitle2}
-              onChange={updateHeroTitle2}
-              type="text"
+        <div class="dmb-block-fields">
+          <div className="dmb-field">
+            <div class="dmb-label">
+              <label for="heroTitleLines">
+                Does the Hero Title have multiple lines?
+              </label>
+              <p>
+                The hero block title can have one or two lines, determining the
+                amount of lines the title has, allows the settings to adjust
+                properly.
+              </p>
+            </div>
+            <div class="dmb-input">
+              <input
+                id="heroTitleLines"
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />
+            </div>
+          </div>
+          <div className="dmb-field dmb-field--has-subfield">
+            <div class="dmb-subfield">
+              <div class="dmb-label">
+                <label for="heroTitle">Hero Title</label>
+                <p>
+                  Describes the title of the hero block in one line, usually
+                  composed by one word or two with a maximum of 10 characters.
+                </p>
+              </div>
+              <div class="dmb-input">
+                <input
+                  id="heroTitle"
+                  value={heroTitle}
+                  onChange={updateHeroTitle}
+                  type="text"
+                />
+              </div>
+            </div>
+            {attributes.isChecked && (
+              <div class="dmb-subfield">
+                <div class="dmb-label">
+                  <label for="heroTitle2">Hero Title/Second Line</label>
+                  <p>
+                    Adds a second line to the hero title. I can hold up one word
+                    or multiple words with a maximum of 10 characters.
+                  </p>
+                </div>
+                <div class="dmb-input">
+                  <input
+                    id="heroTitle2"
+                    value={heroTitle2}
+                    onChange={updateHeroTitle2}
+                    type="text"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="dmb-field">
+            <div class="dmb-label">
+              <label for="heroDescription">Hero Description</label>
+              <p>
+                This section describes in an small amount of words or upto 56
+                characters what the hero is about.
+              </p>
+            </div>
+            <RichText
+              id="heroDescription"
+              value={heroContent}
+              onChange={handleContentChange}
+              placeholder="Enter hero content..."
+              rows="5"
             />
           </div>
-        )}
-        <div className="form-group">
-          <label htmlFor="heroContent">Hero Content:</label>
-          <RichText
-            id="heroContent"
-            value={heroContent}
-            onChange={handleContentChange}
-            placeholder="Enter hero content..."
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="heroImage">Hero Image:</label>
-          <MediaUpload
-            onSelect={handleImageSelect}
-            allowedTypes={["image"]}
-            render={({ open }) => (
-              <Button onClick={open}>
-                {imageUrl ? (
-                  <img src={imageUrl} class="hero-home" />
-                ) : (
-                  "Select Image"
-                )}
-              </Button>
-            )}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="linkedinUrl">Linkedin URL:</label>
-          <input
-            id="linkedinUrl"
-            value={linkedinUrl}
-            onChange={handleLinkedinUrl}
-            type="url"
-            pattern="https://.*"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="codepenUrl">Codepen URL:</label>
-          <input
-            id="codepenUrl"
-            value={codepenUrl}
-            onChange={handleCodepenUrl}
-            type="url"
-            pattern="https://.*"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="githubUrl">Github URL:</label>
-          <input
-            id="githubUrl"
-            value={githubUrl}
-            onChange={handleGithubUrl}
-            type="url"
-            pattern="https://.*"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="dribbbleUrl">Dribbble URL:</label>
-          <input
-            id="dribbbleUrl"
-            value={dribbbleUrl}
-            onChange={handleDribbbleUrl}
-            type="url"
-            pattern="https://.*"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="resumeUrl">Resume URL</label>
-          <input
-            id="resumeURL"
-            value={resumeUrl}
-            onChange={handleResumeUrl}
-            type="text"
-          />
+          <div className="dmb-field dmb-field--has-btn">
+            <div class="dmb-label">
+              <label for="heroImage">Hero Image</label>
+              <p>
+                The image uploaded will be the the main point of attention on
+                the hero block. The hero image section will hold up an image up
+                to 744px wide.
+              </p>
+              <p>
+                In order to look appropiate it is recommended that the image
+                uploaded has a ratio of 4:3 upto 4:4
+              </p>
+            </div>
+            <div class="dmb-input">
+              {!imageUrl ? (
+                <MediaUpload
+                  onSelect={handleImageSelect}
+                  allowedTypes={["image"]}
+                  render={({ open }) => (
+                    <Button className="dmb-block-btn" onClick={open}>
+                      Select Image
+                    </Button>
+                  )}
+                />
+              ) : (
+                <div class="dmb-selected-image-wrap">
+                  <img src={imageUrl} class="dmb-selected-image" />
+                  <div className="dmb-selected-image-image__btn-wrapper">
+                    <MediaUpload
+                      onSelect={handleImageSelect}
+                      allowedTypes={["image"]}
+                      render={({ open }) => (
+                        <Button
+                          className="dmb-block-btn dmb-block-btn--select"
+                          onClick={open}
+                        >
+                          <span class="sr-only">Select Image</span>
+                        </Button>
+                      )}
+                    />
+                    <Button
+                      className="dmb-block-btn dmb-block-btn--remove"
+                      onClick={() => setAttributes({ imageUrl: "" })}
+                    >
+                      <span class="sr-only">Remove Image</span>
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <div class="dmb-field dmb-field--has-multiple-inputs">
+            <div class="dmb-label">
+              <h5 class="label-style">Social Media</h5>
+              <p>
+                This section displays the social media links that you would like
+                to include on the hero block.
+              </p>
+            </div>
+            <div class="dmb-input">
+              <input
+                id="linkedinUrl"
+                value={linkedinUrl}
+                onChange={handleLinkedinUrl}
+                type="url"
+                pattern="https://.*"
+                placeholder="LinkedIn"
+              />
+              <input
+                id="codepenUrl"
+                value={codepenUrl}
+                onChange={handleCodepenUrl}
+                type="url"
+                pattern="https://.*"
+                placeholder="Codepen"
+              />
+              <input
+                id="githubUrl"
+                value={githubUrl}
+                onChange={handleGithubUrl}
+                type="url"
+                pattern="https://.*"
+                placeholder="GitHub"
+              />
+              <input
+                id="dribbbleUrl"
+                value={dribbbleUrl}
+                onChange={handleDribbbleUrl}
+                type="url"
+                pattern="https://.*"
+                placeholder="Dribbble"
+              />
+              <input
+                id="resumeURL"
+                value={resumeUrl}
+                onChange={handleResumeUrl}
+                type="text"
+                placeholder="Resume"
+              />
+            </div>
+          </div>
         </div>
       </div>
     );

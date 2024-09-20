@@ -5,68 +5,66 @@
                 <h2>Hero Component</h2>
                 <button><span class="sr-only">Toggle Panel</span></button>
             </div>
-            <div class="dmb-block__main">
-                <div class="dmb-block-fields">
-                    <div class="dmb-field">
+            <div class="dmb-block-fields">
+                <div class="dmb-field">
+                    <div class="dmb-label">
+                        <label for="heroLines">Does the Hero Title have multiple lines?</label>
+                        <p>The hero block title can have one or two lines, determining the amount of lines the title has, allows the settings to adjust properly.</p>
+                    </div>
+                    <div class="dmb-input">
+                        <input type="checkbox" id-"heroLines">
+                    </div>
+                </div>
+                <div class="dmb-field dmb-field--has-subfield">
+                    <div class=" dmb-subfield">
                         <div class="dmb-label">
-                            <label for="heroLines">Does the Hero Title have multiple lines?</label>
-                            <p>The hero block title can have one or two lines, determining the amount of lines the title has, allows the settings to adjust properly.</p>
+                            <label for="heroTitle">Hero Title</label>
+                            <p>Describes the title of the hero block in one line, usually composed by one word or two with a maximum of 10 characters.</p>
                         </div>
                         <div class="dmb-input">
-                            <input type="checkbox" id-"heroLines">
+                            <input type="text" id-"heroTitle">
                         </div>
                     </div>
-                    <div class="dmb-field dmb-field__has-subfield">
-                        <div class="dmb-subfield">
-                            <div class="dmb-label">
-                                <label for="heroTitle">Hero Title</label>
-                                <p>Describes the title of the hero block in one line, usually composed by one word or two with a maximum of 10 characters.</p>
-                            </div>
-                            <div class="dmb-input">
-                                <input type="text" id-"heroTitle">
-                            </div>
-                        </div>
-                        <div class="dmb-subfield">
-                            <div class="dmb-label">
-                                <label for="heroTitle2">Hero Title/Second Line</label>
-                                <p>Adds a second line to the hero title. I can hold up one word or multiple words with a maximum of 10 characters.</p>
-                            </div>
-                            <div class="dmb-input">
-                                <input type="text" id-"heroTitle2">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dmb-field">
+                    <div class="dmb-subfield">
                         <div class="dmb-label">
-                            <label for="heroDescription">Hero Description</label>
-                            <p>This section describes in an small amount of words or upto 56 characters what the hero is about.</p>
+                            <label for="heroTitle2">Hero Title/Second Line</label>
+                            <p>Adds a second line to the hero title. I can hold up one word or multiple words with a maximum of 10 characters.</p>
                         </div>
                         <div class="dmb-input">
-                            <textarea id="heroDescription" rows="5"></textarea>
+                            <input type="text" id-"heroTitle2">
                         </div>
                     </div>
-                    <div class="dmb-field">
-                        <div class="dmb-label">
-                            <label for="heroImage">Hero Image</label>
-                            <p>The image uploaded will be the the main point of attention on the hero block. The hero image section will hold up an image up to 744px wide.</p>
-                            <p>In order to look appropiate it is recommended that the image uploaded has a ratio of 4:3 upto 4:4</p>
-                        </div>
-                        <div class="dmb-input">
-                            <input type="file" id="heroImage">
-                        </div>
+                </div>
+                <div class="dmb-field">
+                    <div class="dmb-label">
+                        <label for="heroDescription">Hero Description</label>
+                        <p>This section describes in an small amount of words or upto 56 characters what the hero is about.</p>
                     </div>
-                    <div class="dmb-field dmb-field__has-multiple-inputs">
-                        <div class="dmb-label">
-                            <h5 class="label-style">Social Media</h5>
-                            <p>This section displays the social media links that you would like to include on the hero block.</p>
-                        </div>
-                        <div class="dmb-input">
-                            <input type="url" id="heroLinkeIn" placeholder="LinkedIn">
-                            <input type="url" id="heroCodepen" placeholder="Codepen">
-                            <input type="url" id="heroGitHub" placeholder="GitHub">
-                            <input type="url" id="heroDribbble" placeholder="Dribbble">
-                            <input type="url" id="heroResume" placeholder="Resume">
-                        </div>
+                    <div class="dmb-input">
+                        <textarea id="heroDescription" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="dmb-field">
+                    <div class="dmb-label">
+                        <label for="heroImage">Hero Image</label>
+                        <p>The image uploaded will be the the main point of attention on the hero block. The hero image section will hold up an image up to 744px wide.</p>
+                        <p>In order to look appropiate it is recommended that the image uploaded has a ratio of 4:3 upto 4:4</p>
+                    </div>
+                    <div class="dmb-input">
+                        <input type="file" id="heroImage">
+                    </div>
+                </div>
+                <div class="dmb-field dmb-field--has-multiple-inputs">
+                    <div class="dmb-label">
+                        <h5 class="label-style">Social Media</h5>
+                        <p>This section displays the social media links that you would like to include on the hero block.</p>
+                    </div>
+                    <div class="dmb-input">
+                        <input type="url" id="heroLinkeIn" placeholder="LinkedIn">
+                        <input type="url" id="heroCodepen" placeholder="Codepen">
+                        <input type="url" id="heroGitHub" placeholder="GitHub">
+                        <input type="url" id="heroDribbble" placeholder="Dribbble">
+                        <input type="url" id="heroResume" placeholder="Resume">
                     </div>
                 </div>
             </div>

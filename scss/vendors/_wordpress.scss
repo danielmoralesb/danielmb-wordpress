@@ -1,5 +1,13 @@
 @use "../abstracts" as *;
 
+html :where(.editor-styles-wrapper) {
+  background-color: $dark-white;
+
+  ::selection {
+    color: $text-color-light;
+  }
+}
+
 h1,
 h2,
 h3,
@@ -16,12 +24,60 @@ h6 {
 }
 
 .admin-container {
-  background-color: #f0f0f1;
+  background-color: $dark-white;
   padding: $padding * 2 $padding;
 }
 
 .dmb-block {
+  border-radius: 8px;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.1);
+
+  .block-editor-rich-text__editable.rich-text {
+    background-color: $gray;
+    border: 1px solid $light-gray;
+    border-radius: 5px;
+    color: $text-color-primary-light;
+    font-size: $font-size-sm;
+    padding: $padding * 0.5;
+    resize: vertical;
+    width: 100%;
+
+    .dmb-field--has-multiple-inputs & {
+      &:not(:last-of-type) {
+        margin-bottom: $padding;
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 1px solid $brand-primary;
+    }
+
+    @include min-screen("md") {
+      width: 75%;
+    }
+  }
+
+  .dmb-block-btn {
+    background-color: $brand-primary;
+    border: none;
+    color: $text-color-light;
+    font-size: $font-size-sm;
+    padding: $padding * 0.5;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: $margin;
+    @include transition($transition-time: 0.15s);
+
+    &:hover,
+    &:active {
+      background-color: $brand-primary-alt;
+      color: rgba($text-color-light, 0.75);
+    }
+  }
 }
 
 .dmb-block__header {
@@ -32,6 +88,10 @@ h6 {
   border-radius: 8px 8px 0 0;
   min-height: 64px;
   padding: 0 $padding * 2;
+
+  .is-closed & {
+    border-radius: 8px;
+  }
 
   h2 {
     color: $text-color-light;
@@ -59,17 +119,30 @@ h6 {
     background-position: center;
     background-repeat: no-repeat;
     border: none;
+    border-radius: 50%;
     color: $white;
     width: $padding * 1.25;
     height: $padding * 1.25;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $brand-primary-light;
+    }
   }
 }
 
-.dmb-block__main {
+.dmb-block-fields {
   background-color: $white;
   border-radius: 0 0 8px 8px;
   color: $text-color-medium;
   padding: 0 $padding * 2;
+
+  .is-closed & {
+    display: none;
+  }
 }
 
 .dmb-field {
@@ -85,7 +158,7 @@ h6 {
     border-bottom: 1px solid $light-gray;
   }
 
-  &.dmb-field__has-subfield {
+  &.dmb-field--has-subfield {
     grid-template-columns: 1fr;
   }
 }
@@ -118,7 +191,7 @@ h6 {
   }
 
   p {
-    color: $text-color-dark;
+    color: $text-color-primary-light;
     font-size: $font-size-sm;
     line-height: 1.25em;
   }
@@ -131,27 +204,34 @@ h6 {
     background-color: $gray;
     border: 1px solid $light-gray;
     border-radius: 5px;
+    color: $text-color-primary-light;
     font-size: $font-size-sm;
     padding: $padding * 0.5;
     resize: vertical;
     width: 100%;
 
-    .dmb-field__has-multiple-inputs & {
+    .dmb-field--has-multiple-inputs & {
       &:not(:last-of-type) {
         margin-bottom: $padding;
       }
     }
 
     &:focus {
-      border-color: $brand-primary;
+      outline: none;
     }
 
     &:focus-visible {
-      outline-color: $brand-primary;
+      outline: 1px solid $brand-primary;
     }
 
     @include min-screen("md") {
       width: 75%;
+    }
+  }
+
+  input[type="url"] {
+    &:focus-visible:invalid {
+      outline: 1px solid $red-light;
     }
   }
 
@@ -160,19 +240,83 @@ h6 {
 
     &::file-selector-button {
       background-color: $brand-primary;
+      border: none;
       color: $text-color-light;
       font-size: $font-size-sm;
       padding: $padding * 0.5;
       border-radius: 4px;
       cursor: pointer;
-      border: 1px solid rgba(0, 0, 0, 0.16);
-      box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
       margin-right: $margin;
-      transition: background-color 200ms;
+      @include transition($transition-time: 0.15s);
 
       &:hover,
       &:active {
         background-color: $brand-primary-alt;
+        color: rgba($text-color-light, 0.75);
+      }
+    }
+  }
+}
+
+.dmb-selected-image-wrap {
+  margin-top: $padding;
+  position: relative;
+
+  @include min-screen("md") {
+    width: 75%;
+  }
+
+  &:hover {
+    .dmb-selected-image {
+      opacity: 0.5;
+    }
+    .components-button {
+      display: block;
+    }
+  }
+  .components-button {
+    display: none;
+  }
+
+  .dmb-selected-image-image__btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: $padding * 0.5;
+    position: absolute;
+    top: $padding * 0.5;
+    right: $padding * 0.5;
+    z-index: 1;
+  }
+
+  .dmb-block-btn {
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 100%;
+    color: $text-color-light;
+    font-size: $font-size-sm;
+    padding: 0;
+    margin: 0;
+    width: $padding * 1.25;
+    height: $padding * 1.25;
+    @include transition($transition-time: 0.15s);
+
+    &.dmb-block-btn--select {
+      background-image: url("#{$path-img}/icons/icon-edit.svg");
+      background-size: 65% auto;
+
+      &:hover,
+      &:active {
+        background-image: url("#{$path-img}/icons/icon-edit-gold.svg");
+      }
+    }
+
+    &.dmb-block-btn--remove {
+      background-image: url("#{$path-img}/icons/icon-close.svg");
+      background-size: 85% auto;
+
+      &:hover,
+      &:active {
+        background-image: url("#{$path-img}/icons/icon-close-gold.svg");
       }
     }
   }
