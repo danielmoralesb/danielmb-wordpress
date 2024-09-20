@@ -2,6 +2,10 @@
 
 html :where(.editor-styles-wrapper) {
   background-color: $dark-white;
+
+  ::selection {
+    color: $text-color-light;
+  }
 }
 
 h1,
@@ -57,7 +61,6 @@ h6 {
     }
   }
 
-  .components-button,
   .dmb-block-btn {
     background-color: $brand-primary;
     border: none;
@@ -86,6 +89,10 @@ h6 {
   min-height: 64px;
   padding: 0 $padding * 2;
 
+  .is-closed & {
+    border-radius: 8px;
+  }
+
   h2 {
     color: $text-color-light;
     font-family: $font-lato;
@@ -112,9 +119,18 @@ h6 {
     background-position: center;
     background-repeat: no-repeat;
     border: none;
+    border-radius: 50%;
     color: $white;
     width: $padding * 1.25;
     height: $padding * 1.25;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $brand-primary-light;
+    }
   }
 }
 
@@ -124,7 +140,7 @@ h6 {
   color: $text-color-medium;
   padding: 0 $padding * 2;
 
-  .is-closed {
+  .is-closed & {
     display: none;
   }
 }
@@ -213,6 +229,12 @@ h6 {
     }
   }
 
+  input[type="url"] {
+    &:focus-visible:invalid {
+      outline: 1px solid $red-light;
+    }
+  }
+
   input[type="file"] {
     width: 100%;
 
@@ -236,8 +258,66 @@ h6 {
   }
 }
 
-.dmb-selected-image {
+.dmb-selected-image-wrap {
+  margin-top: $padding;
+  position: relative;
+
   @include min-screen("md") {
     width: 75%;
+  }
+
+  &:hover {
+    .dmb-selected-image {
+      opacity: 0.5;
+    }
+    .components-button {
+      display: block;
+    }
+  }
+  .components-button {
+    display: none;
+  }
+
+  .dmb-selected-image-image__btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: $padding * 0.5;
+    position: absolute;
+    top: $padding * 0.5;
+    right: $padding * 0.5;
+    z-index: 1;
+  }
+
+  .dmb-block-btn {
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 100%;
+    color: $text-color-light;
+    font-size: $font-size-sm;
+    padding: 0;
+    margin: 0;
+    width: $padding * 1.25;
+    height: $padding * 1.25;
+    @include transition($transition-time: 0.15s);
+
+    &.dmb-block-btn--select {
+      background-image: url("#{$path-img}/icons/icon-edit.svg");
+      background-size: 65% auto;
+
+      &:hover,
+      &:active {
+        background-image: url("#{$path-img}/icons/icon-edit-gold.svg");
+      }
+    }
+
+    &.dmb-block-btn--remove {
+      background-image: url("#{$path-img}/icons/icon-close.svg");
+      background-size: 85% auto;
+
+      &:hover,
+      &:active {
+        background-image: url("#{$path-img}/icons/icon-close-gold.svg");
+      }
+    }
   }
 }

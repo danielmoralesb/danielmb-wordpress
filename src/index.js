@@ -98,13 +98,16 @@ registerBlockType("hero-block/hero-block", {
       setAttributes({ resumeUrl: event.target.value });
     };
 
+    const [isClosed, setIsClosed] = useState(false);
+
     const toggleDmbBlock = () => {
-      const dmbBlock = document.querySelector(".dmb-block");
-      dmbBlock.classList.toggle("is-closed");
+      setIsClosed(!isClosed);
     };
 
+    const blockClassName = `${isClosed ? "is-closed" : ""}`;
+
     return (
-      <div className="dmb-block">
+      <div className={`dmb-block ${blockClassName}`}>
         <div class="dmb-block__header">
           <h2>Hero Component</h2>
           <button onClick={toggleDmbBlock}>
@@ -200,16 +203,41 @@ registerBlockType("hero-block/hero-block", {
               </p>
             </div>
             <div class="dmb-input">
-              <MediaUpload
-                onSelect={handleImageSelect}
-                allowedTypes={["image"]}
-                render={({ open }) => (
-                  <Button class="dmb-block-btn" onClick={open}>
-                    Select Image
-                  </Button>
-                )}
-              />
-              {imageUrl && <img src={imageUrl} class="dmb-selected-image" />}
+              {!imageUrl ? (
+                <MediaUpload
+                  onSelect={handleImageSelect}
+                  allowedTypes={["image"]}
+                  render={({ open }) => (
+                    <Button className="dmb-block-btn" onClick={open}>
+                      Select Image
+                    </Button>
+                  )}
+                />
+              ) : (
+                <div class="dmb-selected-image-wrap">
+                  <img src={imageUrl} class="dmb-selected-image" />
+                  <div className="dmb-selected-image-image__btn-wrapper">
+                    <MediaUpload
+                      onSelect={handleImageSelect}
+                      allowedTypes={["image"]}
+                      render={({ open }) => (
+                        <Button
+                          className="dmb-block-btn dmb-block-btn--select"
+                          onClick={open}
+                        >
+                          <span class="sr-only">Select Image</span>
+                        </Button>
+                      )}
+                    />
+                    <Button
+                      className="dmb-block-btn dmb-block-btn--remove"
+                      onClick={() => setAttributes({ imageUrl: "" })}
+                    >
+                      <span class="sr-only">Remove Image</span>
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           <div class="dmb-field dmb-field--has-multiple-inputs">
