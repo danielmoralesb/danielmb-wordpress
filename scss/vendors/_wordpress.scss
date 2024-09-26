@@ -69,13 +69,47 @@ h6 {
     padding: $padding * 0.5;
     border-radius: 4px;
     cursor: pointer;
-    margin-right: $margin;
     @include transition($transition-time: 0.15s);
 
     &:hover,
     &:active {
       background-color: $brand-primary-alt;
       color: rgba($text-color-light, 0.75);
+    }
+
+    &.dmb-block-btn--icon {
+      align-items: center;
+      background-position: 100%;
+      display: flex;
+      justify-content: center;
+
+      &:after {
+        background-repeat: no-repeat;
+        content: "";
+        display: block;
+        margin-left: 0.625rem;
+      }
+    }
+
+    &.dmb-block-btn--icon-plus {
+      &:after {
+        background-image: url("#{$path-img}/icons/icon-plus-thin.svg");
+        background-size: 20px auto;
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+}
+
+.dmb-block-fields--has-tiles .dmb-field--has-subfield-group {
+  .dmb-block-btn--icon {
+    span {
+      display: none;
+    }
+
+    &:after {
+      margin: 0;
     }
   }
 }
@@ -104,12 +138,21 @@ h6 {
     align-items: center;
 
     &:before {
-      background-image: url("#{$path-img}/icons/icon-hero.svg");
-      content: "";
+      font-family: dashicons;
       display: inline-block;
       margin-right: $padding * 0.5;
-      width: $padding * 1.25;
-      height: $padding * 1.25;
+
+      .dmb-block--hero & {
+        content: "\f198";
+      }
+
+      .dmb-block--intro & {
+        content: "\f134";
+      }
+
+      .dmb-block--tiles & {
+        content: "\f509";
+      }
     }
   }
 
@@ -156,9 +199,17 @@ h6 {
 
   &:not(:last-of-type) {
     border-bottom: 1px solid $light-gray;
+
+    .dmb-block-fields--has-tiles & {
+      border-bottom: none;
+    }
   }
 
   &.dmb-field--has-subfield {
+    grid-template-columns: 1fr;
+  }
+
+  &.dmb-field--has-subfield-group {
     grid-template-columns: 1fr;
   }
 }
@@ -176,6 +227,31 @@ h6 {
   }
 }
 
+.dmb-field__header {
+  display: grid;
+  grid-column-gap: $padding * 3;
+  padding-bottom: $padding * 1.5;
+
+  @include min-screen("md") {
+    grid-template-columns: 1fr 1.25fr;
+  }
+
+  .dmb-block-fields--has-tiles .dmb-field--has-subfield-group & {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.dmb-subfield-group {
+  padding: $padding * 1.5;
+  border: 1px solid $light-gray;
+  border-radius: 8px;
+
+  &:not(:last-of-type) {
+    margin-bottom: $padding;
+  }
+}
+
 .dmb-label {
   margin-bottom: $margin;
 
@@ -188,12 +264,20 @@ h6 {
     color: $text-color-dark;
     font-weight: $font-weight-bold;
     margin: 0 0 $padding;
+
+    .dmb-subfield-group & {
+      font-size: $font-size-sm + 0.25;
+    }
   }
 
   p {
     color: $text-color-primary-light;
     font-size: $font-size-sm;
     line-height: 1.25em;
+
+    .editor-styles-wrapper & {
+      line-height: 1.35em;
+    }
   }
 }
 
@@ -259,8 +343,15 @@ h6 {
 }
 
 .dmb-selected-image-wrap {
-  margin-top: $padding;
   position: relative;
+
+  &:not(:last-of-type) {
+    margin-bottom: $padding;
+  }
+
+  .dmb-selected-image-container & {
+    margin-bottom: $padding;
+  }
 
   @include min-screen("md") {
     width: 75%;

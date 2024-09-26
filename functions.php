@@ -220,7 +220,7 @@ add_filter('wp_check_filetype_and_ext', function ($data, $file, $filename, $mime
 }, 10, 4);
 
 /**
- * Registration of Custom Blocks
+ * Registration of Hero Block
  */
 function hero_block_register_block()
 {
@@ -238,3 +238,46 @@ function hero_block_register_block()
     ));
 }
 add_action('init', 'hero_block_register_block');
+
+
+/**
+ * Registration of Intro Block
+ */
+
+function intro_block_register_block()
+{
+    // Register the editor style
+    wp_register_style("intro-block-editor", get_template_directory_uri() . "/css/editor.css", array(), filemtime(get_template_directory() . '/css/editor.css'));
+
+    // Register the editor script
+    wp_register_script("intro-block-editor", get_template_directory_uri() . "/build/index.js", array("wp-blocks", "wp-editor", "wp-components"));
+
+    // Register the block type and associate the scripts and styles
+    register_block_type("intro-block/intro-block", array(
+        'editor_script' => 'intro-block-editor',
+        'editor_style' => 'intro-block-editor',
+        'style' => 'intro-block',
+    ));
+}
+
+add_action('init', 'intro_block_register_block');
+
+/**
+ * Registration of Tiles Block
+ */
+function tiles_block_register_block()
+{
+    // Register the editor style
+    wp_register_style("tiles-block-editor", get_template_directory_uri() . "/css/editor.css", array(), filemtime(get_template_directory() . '/css/editor.css'));
+
+    // Register the editor script
+    wp_register_script("tiles-block-editor", get_template_directory_uri() . "/build/index.js", array("wp-blocks", "wp-editor", "wp-components"));
+
+    // Register the block type and associate the scripts and styles
+    register_block_type("tiles-block/tiles-block", array(
+        'editor_script' => 'tiles-block-editor',
+        'editor_style' => 'tiles-block-editor',
+        'style' => 'tiles-block',
+    ));
+}
+add_action('init', 'tiles_block_register_block');
