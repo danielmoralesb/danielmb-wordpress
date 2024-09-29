@@ -2278,13 +2278,14 @@ footer .menu ul {
 
 .skills__logos {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1.25rem;
   row-gap: 1.25rem;
   margin: 0 auto;
 }
 .skills__logos img {
-  margin-left: auto;
-  margin-right: auto;
+  display: block;
+  max-height: 50px;
 }
 .skills__box--design .skills__logos {
   column-gap: 1.25rem;
@@ -4154,6 +4155,10 @@ h6.block-editor-inserter__panel-title {
 }
 
 .dmb-selected-image-wrap {
+  background-color: #edeef4;
+  border: 1px solid #cecfd5;
+  border-radius: 5px;
+  padding: 0.625rem;
   position: relative;
 }
 .dmb-selected-image-wrap:not(:last-of-type) {

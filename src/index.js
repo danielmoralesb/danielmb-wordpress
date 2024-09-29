@@ -1044,12 +1044,7 @@ registerBlockType("tiles-block/tiles-block", {
                   <div className="skills__logos">
                     {Array.isArray(tile.images) &&
                       tile.images.map((image, imageIndex) => (
-                        <img
-                          id={index}
-                          key={imageIndex}
-                          src={image}
-                          className="tiles__image"
-                        />
+                        <img id={index} key={imageIndex} src={image} />
                       ))}
                   </div>
                 </div>
