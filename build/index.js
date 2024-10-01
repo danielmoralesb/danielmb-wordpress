@@ -794,18 +794,10 @@ registerBlockType("tiles-block/tiles-block", {
     tiles: {
       type: "array",
       default: [],
-      source: "query",
       query: {
-        // imageUrl: {
-        //   type: "string",
-        //   source: "attribute",
-        //   selector: ".tiles__image",
-        //   attribute: "src",
-        // },
         images: {
           type: "array",
           default: [],
-          source: "query",
           query: {
             url: {
               type: "string",
@@ -910,7 +902,6 @@ registerBlockType("tiles-block/tiles-block", {
     // };
 
     const addImage = index => {
-      console.log(index);
       const newTiles = tiles.map((tile, i) => {
         return i === index ? {
           ...tile,
@@ -921,18 +912,22 @@ registerBlockType("tiles-block/tiles-block", {
         tiles: newTiles
       });
     };
-
-    // const removeTile = (index) => {
-    //   const newTiles = tiles.filter((tile, i) => i !== index);
-    //   setAttributes({ tiles: newTiles });
-    // };
-
+    const removeTile = index => {
+      const newTiles = tiles.filter((tile, i) => i !== index);
+      setAttributes({
+        tiles: newTiles
+      });
+    };
     const [isClosed, setIsClosed] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [isClosedSub, setIsClosedSub] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const toggleDmbBlock = () => {
       setIsClosed(!isClosed);
     };
+    const toggleSubBlock = () => {
+      setIsClosedSub(!isClosed);
+    };
     const blockClassName = `${isClosed ? "is-closed" : ""}`;
-    console.log("Image Array: " + JSON.stringify(tiles.map(tile => tile.images)));
+    const subClassName = `${isClosedSub ? "is-sub-closed" : ""}`;
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: `dmb-block dmb-block--tiles ${blockClassName}`,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -970,12 +965,26 @@ registerBlockType("tiles-block/tiles-block", {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "dmb-field dmb-field--has-subfield-group",
           children: [tiles.map((tile, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            className: "dmb-subfield-group",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: `dmb-subfield-group ${subClassName}`,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
               class: "dmb-subfield__header",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h3", {
-                children: ["Tile ", index + 1]
-              })
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                className: "dmb-subfield__options",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h3", {
+                  children: ["Tile ", index + 1]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                  onClick: () => removeTile(index),
+                  className: "dmb-block-btn dmb-block-btn--remove",
+                  children: "Remove Tile"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                onClick: toggleSubBlock,
+                className: "dmb-block-btn dmb-block-btn--toggle",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                  class: "sr-only",
+                  children: "Toggle Sub Panel"
+                })
+              })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
               class: "dmb-subfield__fields",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -1207,8 +1216,7 @@ registerBlockType("tiles-block/tiles-block", {
                 className: "skills__logos",
                 children: Array.isArray(tile.images) && tile.images.map((image, imageIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
                   id: index,
-                  src: image,
-                  className: "tiles__image"
+                  src: image
                 }, imageIndex))
               })]
             })

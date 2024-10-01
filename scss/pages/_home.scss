@@ -116,13 +116,19 @@
 
 .skills__logos {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 1fr 1fr;
+  column-gap: $margin;
   row-gap: $margin;
   margin: 0 auto;
 
   img {
-    margin-left: auto;
-    margin-right: auto;
+    display: block;
+    max-height: 50px;
+    max-width: 120px;
+
+    &:nth-child(odd) {
+      margin-left: auto;
+    }
   }
 
   .skills__box--design & {

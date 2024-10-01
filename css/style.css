@@ -2278,13 +2278,18 @@ footer .menu ul {
 
 .skills__logos {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1.25rem;
   row-gap: 1.25rem;
   margin: 0 auto;
 }
 .skills__logos img {
+  display: block;
+  max-height: 50px;
+  max-width: 120px;
+}
+.skills__logos img:nth-child(odd) {
   margin-left: auto;
-  margin-right: auto;
 }
 .skills__box--design .skills__logos {
   column-gap: 1.25rem;
@@ -3938,6 +3943,31 @@ h6.block-editor-inserter__panel-title {
   height: 20px;
   width: 20px;
 }
+.dmb-block .dmb-block-btn.dmb-block-btn--toggle {
+  background-color: transparent;
+  background-image: url("../../danielmb/images/icons/icon-chevron-down-blue.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  width: 1.5625rem;
+  height: 1.5625rem;
+}
+.dmb-block .dmb-block-btn.dmb-block-btn--toggle:focus {
+  outline: none;
+}
+.dmb-block .dmb-block-btn.dmb-block-btn--toggle:focus-visible {
+  outline: 2px solid #4a4e69;
+}
+.dmb-block .dmb-block-btn.dmb-block-btn--remove {
+  background-color: transparent;
+  color: #f61118;
+  padding: 0;
+}
+.dmb-block .dmb-block-btn.dmb-block-btn--remove:hover {
+  text-decoration: underline;
+}
 
 .dmb-block-fields--has-tiles .dmb-field--has-subfield-group .dmb-block-btn--icon span {
   display: none;
@@ -4062,12 +4092,39 @@ h6.block-editor-inserter__panel-title {
 }
 
 .dmb-subfield-group {
-  padding: 1.875rem;
   border: 1px solid #cecfd5;
   border-radius: 8px;
 }
 .dmb-subfield-group:not(:last-of-type) {
   margin-bottom: 1.25rem;
+}
+
+.dmb-subfield__header {
+  background-color: #edeef4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px 8px 0 0;
+  min-height: 64px;
+  padding: 0 2.5rem;
+}
+.is-sub-closed .dmb-subfield__header {
+  border-radius: 8px;
+}
+.dmb-subfield__header h3 {
+  color: #323550;
+  font-family: "Lato", sans-serif;
+  font-size: 1.05rem;
+  margin: 0;
+  text-align: left;
+}
+
+.dmb-subfield__fields {
+  padding: 1.875rem;
+  border-radius: 0 0 8px 8px;
+}
+.is-sub-closed .dmb-subfield__fields {
+  display: none;
 }
 
 .dmb-label {
@@ -4154,6 +4211,10 @@ h6.block-editor-inserter__panel-title {
 }
 
 .dmb-selected-image-wrap {
+  background-color: #edeef4;
+  border: 1px solid #cecfd5;
+  border-radius: 5px;
+  padding: 0.625rem;
   position: relative;
 }
 .dmb-selected-image-wrap:not(:last-of-type) {
