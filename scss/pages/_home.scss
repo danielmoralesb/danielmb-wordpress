@@ -124,6 +124,11 @@
   img {
     display: block;
     max-height: 50px;
+    max-width: 120px;
+
+    &:nth-child(odd) {
+      margin-left: auto;
+    }
   }
 
   .skills__box--design & {

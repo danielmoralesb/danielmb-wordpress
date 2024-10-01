@@ -623,18 +623,10 @@ registerBlockType("tiles-block/tiles-block", {
     tiles: {
       type: "array",
       default: [],
-      source: "query",
       query: {
-        // imageUrl: {
-        //   type: "string",
-        //   source: "attribute",
-        //   selector: ".tiles__image",
-        //   attribute: "src",
-        // },
         images: {
           type: "array",
           default: [],
-          source: "query",
           query: {
             url: {
               type: "string",
@@ -732,7 +724,6 @@ registerBlockType("tiles-block/tiles-block", {
     // };
 
     const addImage = (index) => {
-      console.log(index);
       const newTiles = tiles.map((tile, i) => {
         return i === index
           ? {
@@ -744,21 +735,24 @@ registerBlockType("tiles-block/tiles-block", {
       setAttributes({ tiles: newTiles });
     };
 
-    // const removeTile = (index) => {
-    //   const newTiles = tiles.filter((tile, i) => i !== index);
-    //   setAttributes({ tiles: newTiles });
-    // };
+    const removeTile = (index) => {
+      const newTiles = tiles.filter((tile, i) => i !== index);
+      setAttributes({ tiles: newTiles });
+    };
 
     const [isClosed, setIsClosed] = useState(false);
+    const [isClosedSub, setIsClosedSub] = useState(false);
 
     const toggleDmbBlock = () => {
       setIsClosed(!isClosed);
     };
 
+    const toggleSubBlock = () => {
+      setIsClosedSub(!isClosed);
+    };
+
     const blockClassName = `${isClosed ? "is-closed" : ""}`;
-    console.log(
-      "Image Array: " + JSON.stringify(tiles.map((tile) => tile.images))
-    );
+    const subClassName = `${isClosedSub ? "is-sub-closed" : ""}`;
 
     return (
       <div className={`dmb-block dmb-block--tiles ${blockClassName}`}>
@@ -791,15 +785,23 @@ registerBlockType("tiles-block/tiles-block", {
           </div>
           <div className="dmb-field dmb-field--has-subfield-group">
             {tiles.map((tile, index) => (
-              <div className="dmb-subfield-group">
+              <div className={`dmb-subfield-group ${subClassName}`}>
                 <div class="dmb-subfield__header">
-                  <h3>Tile {index + 1}</h3>
-                  {/* <Button
-        onClick={() => removeTile(index)}
-        className="dmb-block-btn dmb-block-btn--remove"
-        >
-        Remove Tile
-        </Button> */}
+                  <div className="dmb-subfield__options">
+                    <h3>Tile {index + 1}</h3>
+                    <button
+                      onClick={() => removeTile(index)}
+                      className="dmb-block-btn dmb-block-btn--remove"
+                    >
+                      Remove Tile
+                    </button>
+                  </div>
+                  <button
+                    onClick={toggleSubBlock}
+                    className="dmb-block-btn dmb-block-btn--toggle"
+                  >
+                    <span class="sr-only">Toggle Sub Panel</span>
+                  </button>
                 </div>
                 <div class="dmb-subfield__fields">
                   <div className="dmb-field">
@@ -984,11 +986,11 @@ registerBlockType("tiles-block/tiles-block", {
                           )
                       )}
                       {/* <Button
-                        onClick={() => addImage(index)}
-                        className="dmb-block-btn"
-                      >
-                        Add New Image
-                      </Button> */}
+                          onClick={() => addImage(index)}
+                          className="dmb-block-btn"
+                        >
+                          Add New Image
+                        </Button> */}
                       <MediaUpload
                         onSelect={(media) => handleImageSelect(media, index)}
                         allowedTypes={["image"]}
