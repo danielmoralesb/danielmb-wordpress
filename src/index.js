@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 const { registerBlockType } = wp.blocks;
 const { RichText, MediaUpload } = wp.blockEditor;
 const { Button } = wp.components;
@@ -740,19 +740,34 @@ registerBlockType("tiles-block/tiles-block", {
       setAttributes({ tiles: newTiles });
     };
 
-    const [isClosed, setIsClosed] = useState(false);
-    const [isClosedSub, setIsClosedSub] = useState(false);
+    const initialState = {
+      isClosed: false,
+      isClosedSub: false,
+    };
+
+    const reducer = (state, action) => {
+      switch (action.type) {
+        case "TOGGLE_DMB_BLOCK":
+          return { ...state, isClosed: !state.isClosed };
+        case "TOGGLE_SUB_BLOCK":
+          return { ...state, isClosedSub: !state.isClosedSub };
+        default:
+          return state;
+      }
+    };
+
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     const toggleDmbBlock = () => {
-      setIsClosed(!isClosed);
+      dispatch({ type: "TOGGLE_DMB_BLOCK" });
     };
 
     const toggleSubBlock = () => {
-      setIsClosedSub(!isClosed);
+      dispatch({ type: "TOGGLE_SUB_BLOCK" });
     };
 
-    const blockClassName = `${isClosed ? "is-closed" : ""}`;
-    const subClassName = `${isClosedSub ? "is-sub-closed" : ""}`;
+    const blockClassName = `${state.isClosed ? "is-closed" : ""}`;
+    const subClassName = `${state.isClosedSub ? "is-sub-closed" : ""}`;
 
     return (
       <div className={`dmb-block dmb-block--tiles ${blockClassName}`}>

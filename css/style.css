@@ -4102,11 +4102,16 @@ h6.block-editor-inserter__panel-title {
 .dmb-subfield__header {
   background-color: #edeef4;
   display: flex;
-  align-items: center;
   justify-content: space-between;
   border-radius: 8px 8px 0 0;
   min-height: 64px;
-  padding: 0 2.5rem;
+  padding: 0.625rem 2.5rem;
+}
+.dmb-subfield__header .dmb-block-btn--remove {
+  visibility: hidden;
+}
+.dmb-subfield__header:hover .dmb-block-btn--remove {
+  visibility: visible;
 }
 .is-sub-closed .dmb-subfield__header {
   border-radius: 8px;

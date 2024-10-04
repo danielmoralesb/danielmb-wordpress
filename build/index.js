@@ -918,16 +918,39 @@ registerBlockType("tiles-block/tiles-block", {
         tiles: newTiles
       });
     };
-    const [isClosed, setIsClosed] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-    const [isClosedSub, setIsClosedSub] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const initialState = {
+      isClosed: false,
+      isClosedSub: false
+    };
+    const reducer = (state, action) => {
+      switch (action.type) {
+        case "TOGGLE_DMB_BLOCK":
+          return {
+            ...state,
+            isClosed: !state.isClosed
+          };
+        case "TOGGLE_SUB_BLOCK":
+          return {
+            ...state,
+            isClosedSub: !state.isClosedSub
+          };
+        default:
+          return state;
+      }
+    };
+    const [state, dispatch] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(reducer, initialState);
     const toggleDmbBlock = () => {
-      setIsClosed(!isClosed);
+      dispatch({
+        type: "TOGGLE_DMB_BLOCK"
+      });
     };
     const toggleSubBlock = () => {
-      setIsClosedSub(!isClosed);
+      dispatch({
+        type: "TOGGLE_SUB_BLOCK"
+      });
     };
-    const blockClassName = `${isClosed ? "is-closed" : ""}`;
-    const subClassName = `${isClosedSub ? "is-sub-closed" : ""}`;
+    const blockClassName = `${state.isClosed ? "is-closed" : ""}`;
+    const subClassName = `${state.isClosedSub ? "is-sub-closed" : ""}`;
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: `dmb-block dmb-block--tiles ${blockClassName}`,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
