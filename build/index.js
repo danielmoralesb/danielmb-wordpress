@@ -831,7 +831,6 @@ registerBlockType("tiles-block/tiles-block", {
       tiles,
       tilesTitle
     } = attributes;
-    const [hasTiles, setHasTiles] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     function updateTilesTitle(event) {
       setAttributes({
         tilesTitle: event.target.value
@@ -884,7 +883,6 @@ registerBlockType("tiles-block/tiles-block", {
       setAttributes({
         tiles: newTiles
       });
-      setHasTiles(true);
     };
 
     // const addImage = (index) => {
@@ -918,12 +916,22 @@ registerBlockType("tiles-block/tiles-block", {
         tiles: newTiles
       });
     };
+    const initialIndex = index => {
+      return index;
+    };
     const initialState = {
       isClosed: false,
-      isClosedSub: false
+      isClosedSub: false,
+      index: null,
+      tiles: []
     };
     const reducer = (state, action) => {
       switch (action.type) {
+        case "INITIALIZE_TILES":
+          return {
+            ...state,
+            tiles: action.tiles
+          };
         case "TOGGLE_DMB_BLOCK":
           return {
             ...state,
@@ -932,25 +940,47 @@ registerBlockType("tiles-block/tiles-block", {
         case "TOGGLE_SUB_BLOCK":
           return {
             ...state,
-            isClosedSub: !state.isClosedSub
+            index: action.index,
+            tiles: state.tiles.map((tile, i) => i === action.index ? {
+              ...tile,
+              isClosedSub: !tile.isClosedSub
+            } : tile)
           };
         default:
           return state;
       }
     };
-    const [state, dispatch] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(reducer, initialState);
+    const [state, dispatch] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(reducer, initialState, initialState => {
+      return {
+        ...initialState,
+        index: typeof initialState.index === "number" ? initialState.index : initialIndex
+      };
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+      const tilesWithState = tiles.map((tile, index) => ({
+        ...tile,
+        index,
+        isClosedSub: false
+      }));
+      dispatch({
+        type: "INITIALIZE_TILES",
+        tiles: tilesWithState
+      });
+      toggleSubBlock(initialIndex);
+    }, [tiles]);
     const toggleDmbBlock = () => {
       dispatch({
         type: "TOGGLE_DMB_BLOCK"
       });
     };
-    const toggleSubBlock = () => {
+    const toggleSubBlock = index => {
       dispatch({
-        type: "TOGGLE_SUB_BLOCK"
+        type: "TOGGLE_SUB_BLOCK",
+        index
       });
+      initialIndex(index);
     };
     const blockClassName = `${state.isClosed ? "is-closed" : ""}`;
-    const subClassName = `${state.isClosedSub ? "is-sub-closed" : ""}`;
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: `dmb-block dmb-block--tiles ${blockClassName}`,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -965,7 +995,7 @@ registerBlockType("tiles-block/tiles-block", {
           })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        class: hasTiles === true ? "dmb-block-fields dmb-block-fields--has-tiles" : "dmb-block-fields",
+        class: tiles.length > 0 ? "dmb-block-fields dmb-block-fields--has-tiles" : "dmb-block-fields",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "dmb-field",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -987,8 +1017,8 @@ registerBlockType("tiles-block/tiles-block", {
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "dmb-field dmb-field--has-subfield-group",
-          children: [tiles.map((tile, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            className: `dmb-subfield-group ${subClassName}`,
+          children: [state.tiles.map((tile, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: `dmb-subfield-group ${tile.isClosedSub && tile.index === index ? "is-sub-closed" : ""}`,
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
               class: "dmb-subfield__header",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -1001,7 +1031,8 @@ registerBlockType("tiles-block/tiles-block", {
                   children: "Remove Tile"
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-                onClick: toggleSubBlock,
+                id: index,
+                onClick: () => toggleSubBlock(index),
                 className: "dmb-block-btn dmb-block-btn--toggle",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
                   class: "sr-only",
@@ -1185,7 +1216,7 @@ registerBlockType("tiles-block/tiles-block", {
                 })]
               })]
             })]
-          })), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
             className: "dmb-field__header",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
               className: "dmb-label",

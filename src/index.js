@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 const { registerBlockType } = wp.blocks;
 const { RichText, MediaUpload } = wp.blockEditor;
 const { Button } = wp.components;
@@ -654,7 +654,6 @@ registerBlockType("tiles-block/tiles-block", {
   edit({ attributes, setAttributes }) {
     const [isChecked, setIsChecked] = useState(attributes.isChecked);
     const { tiles, tilesTitle } = attributes;
-    const [hasTiles, setHasTiles] = useState(false);
 
     function updateTilesTitle(event) {
       setAttributes({ tilesTitle: event.target.value });
@@ -706,7 +705,6 @@ registerBlockType("tiles-block/tiles-block", {
         },
       ]);
       setAttributes({ tiles: newTiles });
-      setHasTiles(true);
     };
 
     // const addImage = (index) => {
@@ -740,34 +738,75 @@ registerBlockType("tiles-block/tiles-block", {
       setAttributes({ tiles: newTiles });
     };
 
+    const initialIndex = (index) => {
+      return index;
+    };
+
     const initialState = {
       isClosed: false,
       isClosedSub: false,
+      index: null,
+      tiles: [],
     };
 
     const reducer = (state, action) => {
       switch (action.type) {
+        case "INITIALIZE_TILES":
+          return {
+            ...state,
+            tiles: action.tiles,
+          };
         case "TOGGLE_DMB_BLOCK":
           return { ...state, isClosed: !state.isClosed };
         case "TOGGLE_SUB_BLOCK":
-          return { ...state, isClosedSub: !state.isClosedSub };
+          return {
+            ...state,
+            index: action.index,
+            tiles: state.tiles.map((tile, i) =>
+              i === action.index
+                ? { ...tile, isClosedSub: !tile.isClosedSub }
+                : tile
+            ),
+          };
         default:
           return state;
       }
     };
 
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(
+      reducer,
+      initialState,
+      (initialState) => {
+        return {
+          ...initialState,
+          index:
+            typeof initialState.index === "number"
+              ? initialState.index
+              : initialIndex,
+        };
+      }
+    );
+
+    useEffect(() => {
+      const tilesWithState = tiles.map((tile, index) => ({
+        ...tile,
+        index,
+        isClosedSub: false,
+      }));
+      dispatch({ type: "INITIALIZE_TILES", tiles: tilesWithState });
+      toggleSubBlock(initialIndex);
+    }, [tiles]);
 
     const toggleDmbBlock = () => {
       dispatch({ type: "TOGGLE_DMB_BLOCK" });
     };
 
-    const toggleSubBlock = () => {
-      dispatch({ type: "TOGGLE_SUB_BLOCK" });
+    const toggleSubBlock = (index) => {
+      dispatch({ type: "TOGGLE_SUB_BLOCK", index });
+      initialIndex(index);
     };
 
     const blockClassName = `${state.isClosed ? "is-closed" : ""}`;
-    const subClassName = `${state.isClosedSub ? "is-sub-closed" : ""}`;
 
     return (
       <div className={`dmb-block dmb-block--tiles ${blockClassName}`}>
@@ -779,7 +818,7 @@ registerBlockType("tiles-block/tiles-block", {
         </div>
         <div
           class={
-            hasTiles === true
+            tiles.length > 0
               ? "dmb-block-fields dmb-block-fields--has-tiles"
               : "dmb-block-fields"
           }
@@ -799,8 +838,15 @@ registerBlockType("tiles-block/tiles-block", {
             </div>
           </div>
           <div className="dmb-field dmb-field--has-subfield-group">
-            {tiles.map((tile, index) => (
-              <div className={`dmb-subfield-group ${subClassName}`}>
+            {state.tiles.map((tile, index) => (
+              <div
+                key={index}
+                className={`dmb-subfield-group ${
+                  tile.isClosedSub && tile.index === index
+                    ? "is-sub-closed"
+                    : ""
+                }`}
+              >
                 <div class="dmb-subfield__header">
                   <div className="dmb-subfield__options">
                     <h3>Tile {index + 1}</h3>
@@ -812,7 +858,8 @@ registerBlockType("tiles-block/tiles-block", {
                     </button>
                   </div>
                   <button
-                    onClick={toggleSubBlock}
+                    id={index}
+                    onClick={() => toggleSubBlock(index)}
                     className="dmb-block-btn dmb-block-btn--toggle"
                   >
                     <span class="sr-only">Toggle Sub Panel</span>
