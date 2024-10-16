@@ -1701,11 +1701,8 @@ registerBlockType("diagonal-block/diagonal-block", {
         className: "diagonal__container",
         children: attributes.boxes.map((box, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "diagonal__box",
-          style: {
-            backgroundImage: `url(${box.imageUrl})`
-          },
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            className: "container",
+            className: "diagonal__text",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
                 className: "block",

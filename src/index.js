@@ -1522,11 +1522,8 @@ registerBlockType("diagonal-block/diagonal-block", {
         </div>
         <div className="diagonal__container">
           {attributes.boxes.map((box, index) => (
-            <div
-              className="diagonal__box"
-              style={{ backgroundImage: `url(${box.imageUrl})` }}
-            >
-              <div className="container">
+            <div className="diagonal__box">
+              <div className="diagonal__text">
                 <h4>
                   <span className="block">{box.title}</span>
                   {attributes.isChecked && (
