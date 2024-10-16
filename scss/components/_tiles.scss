@@ -1,0 +1,71 @@
+@use "../abstracts" as *;
+@use "sass:math";
+
+.tiles__container {
+  display: grid;
+  grid-gap: math.div($margin, 4);
+
+  @include min-screen("md") {
+    grid-template-columns: 50% 50%;
+  }
+
+  @include min-screen("xl") {
+    grid-template-columns: 25% 25% 25% 25%;
+  }
+
+  h3 {
+    text-align: center;
+  }
+
+  p {
+    line-height: $line-height * 1.25;
+    margin-bottom: $margin * 2;
+    text-align: center;
+
+    @include min-screen("lg") {
+      font-size: $font-size-sm;
+    }
+  }
+
+  .btn {
+    width: auto;
+    margin: $margin * 2 auto;
+    grid-column: 1/-1;
+  }
+}
+
+.tile {
+  background-color: $brand-primary;
+  padding: $padding * 1.5 $padding $padding * 2.15 $padding;
+
+  @include min-screen("md") {
+    &--design {
+      h3 {
+        height: 3.4rem;
+      }
+    }
+    &--frameworks {
+      h3 {
+        height: 3.4rem;
+      }
+    }
+  }
+}
+
+.tile__logos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: $margin;
+  row-gap: $margin;
+  margin: 0 auto;
+
+  img {
+    display: block;
+    max-height: 60px;
+    max-width: 120px;
+
+    &:nth-child(odd) {
+      margin-left: auto;
+    }
+  }
+}

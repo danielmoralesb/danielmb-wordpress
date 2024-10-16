@@ -995,7 +995,7 @@ registerBlockType("tiles-block/tiles-block", {
           })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        class: tiles.length > 0 ? "dmb-block-fields dmb-block-fields--has-tiles" : "dmb-block-fields",
+        class: tiles.length > 0 ? "dmb-block-fields dmb-block-fields--show-subfield-group" : "dmb-block-fields",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "dmb-field",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -1245,38 +1245,486 @@ registerBlockType("tiles-block/tiles-block", {
     attributes
   }) {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("section", {
-      class: "skills-wrapper",
+      className: "tiles",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        class: "container",
+        className: "container",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
           children: attributes.tilesTitle
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "skills",
-          children: attributes.tiles.map((tile, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            class: "skills__box",
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "tiles__container",
+          children: [attributes.tiles.map((tile, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: `tile ${index > 3 && "hidden"}`,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              class: "tiles__item",
+              className: "tile__inner",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h3", {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-                  class: "block",
+                  className: "block",
                   children: tile.title
                 }), attributes.isChecked && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-                  class: "block",
+                  className: "block",
                   children: tile.title2
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
                 children: tile.description
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                className: "skills__logos",
+                className: "tile__logos",
                 children: Array.isArray(tile.images) && tile.images.map((image, imageIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
                   id: index,
                   src: image
                 }, imageIndex))
               })]
             })
-          }))
+          })), attributes.tiles.length > 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+            id: "moreTiles",
+            className: "btn btn--primary btn--icon btn--icon--plus",
+            children: "More Skills"
+          })]
         })]
       })
+    });
+  }
+});
+registerBlockType("diagonal-block/diagonal-block", {
+  title: "Diagonal Block",
+  description: "Block to create a section with a diagonal background composed by a background color and a background image which holds a title and a description.",
+  icon: "tide",
+  category: "layout",
+  attributes: {
+    isChecked: {
+      type: "boolean",
+      default: false
+    },
+    boxesTitle: {
+      type: "string"
+    },
+    boxes: {
+      type: "array",
+      default: [],
+      query: {
+        title: {
+          type: "string",
+          source: "text"
+        },
+        title2: {
+          type: "string",
+          source: "text"
+        },
+        description: {
+          type: "string",
+          source: "text"
+        },
+        imageUrl: {
+          type: "string"
+        }
+      }
+    }
+  },
+  edit({
+    attributes,
+    setAttributes
+  }) {
+    const [isChecked, setIsChecked] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(attributes.isChecked);
+    const {
+      boxes,
+      boxesTitle
+    } = attributes;
+    function updateboxesTitle(event) {
+      setAttributes({
+        boxesTitle: event.target.value
+      });
+    }
+    const handleCheckboxChange = event => {
+      const checked = event.target.checked;
+      setIsChecked(checked);
+      setAttributes({
+        isChecked: checked
+      });
+    };
+    function handleImageSelect(media, index) {
+      const newboxes = boxes.map((box, i) => {
+        return i === index ? {
+          ...box,
+          imageUrl: media.url
+        } : box;
+      });
+      setAttributes({
+        boxes: newboxes
+      });
+    }
+    const addbox = () => {
+      const newboxes = boxes.concat([{
+        title: "",
+        title2: "",
+        description: "",
+        imageUrl: ""
+      }]);
+      setAttributes({
+        boxes: newboxes
+      });
+    };
+    const removebox = index => {
+      const newboxes = boxes.filter((box, i) => i !== index);
+      setAttributes({
+        boxes: newboxes
+      });
+    };
+    const initialIndex = index => {
+      return index;
+    };
+    const initialState = {
+      isClosed: false,
+      isClosedSub: false,
+      index: null,
+      boxes: []
+    };
+    const reducer = (state, action) => {
+      switch (action.type) {
+        case "INITIALIZE_boxes":
+          return {
+            ...state,
+            boxes: action.boxes
+          };
+        case "TOGGLE_DMB_BLOCK":
+          return {
+            ...state,
+            isClosed: !state.isClosed
+          };
+        case "TOGGLE_SUB_BLOCK":
+          return {
+            ...state,
+            index: action.index,
+            boxes: state.boxes.map((box, i) => i === action.index ? {
+              ...box,
+              isClosedSub: !box.isClosedSub
+            } : box)
+          };
+        default:
+          return state;
+      }
+    };
+    const [state, dispatch] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(reducer, initialState, initialState => {
+      return {
+        ...initialState,
+        index: typeof initialState.index === "number" ? initialState.index : initialIndex
+      };
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+      const boxesWithState = boxes.map((box, index) => ({
+        ...box,
+        index,
+        isClosedSub: false
+      }));
+      dispatch({
+        type: "INITIALIZE_boxes",
+        boxes: boxesWithState
+      });
+      toggleSubBlock(initialIndex);
+    }, [boxes]);
+    const toggleDmbBlock = () => {
+      dispatch({
+        type: "TOGGLE_DMB_BLOCK"
+      });
+    };
+    const toggleSubBlock = index => {
+      dispatch({
+        type: "TOGGLE_SUB_BLOCK",
+        index
+      });
+      initialIndex(index);
+    };
+    const blockClassName = `${state.isClosed ? "is-closed" : ""}`;
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: `dmb-block dmb-block--boxes ${blockClassName}`,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        class: "dmb-block__header",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+          children: "Diagonal Component"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          onClick: toggleDmbBlock,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+            class: "sr-only",
+            children: "Toggle Panel"
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        class: boxes.length > 0 ? "dmb-block-fields dmb-block-fields--show-subfield-group" : "dmb-block-fields",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "dmb-field",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            class: "dmb-label",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+              for: "boxesTitle",
+              children: "Component Title"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+              children: "Describes the title of the overall boxes component."
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            class: "dmb-input",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+              id: "boxesTitle",
+              value: boxesTitle,
+              onChange: updateboxesTitle,
+              type: "text"
+            })
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "dmb-field dmb-field--has-subfield-group",
+          children: [state.boxes.map((box, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: `dmb-subfield-group ${box.isClosedSub && box.index === index ? "is-sub-closed" : ""}`,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              class: "dmb-subfield__header",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                className: "dmb-subfield__options",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h3", {
+                  children: ["Box ", index + 1]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                  onClick: () => removebox(index),
+                  className: "dmb-block-btn dmb-block-btn--remove",
+                  children: "Remove box"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                id: index,
+                onClick: () => toggleSubBlock(index),
+                className: "dmb-block-btn dmb-block-btn--toggle",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                  class: "sr-only",
+                  children: "Toggle Sub Panel"
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              class: "dmb-subfield__fields",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                className: "dmb-field",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  class: "dmb-label",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                    for: "boxTitleLines",
+                    children: "Does the Title have multiple lines?"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+                    children: "The title can have one or two lines, determining the amount of lines the title has, allows the settings to adjust properly."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                  class: "dmb-input",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+                    id: "boxTitleLines",
+                    type: "checkbox",
+                    checked: isChecked,
+                    onChange: handleCheckboxChange
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                className: "dmb-field dmb-field--has-subfield",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  class: "dmb-subfield",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                    class: "dmb-label",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                      for: "boxTitle",
+                      children: "Title"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+                      children: "Describes the title of the box in one line, usually composed by one word or two with a maximum of 10 characters."
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                    class: "dmb-input",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+                      id: "boxTitle",
+                      value: box.title,
+                      onChange: event => {
+                        const newTitle = event.target.value;
+                        setAttributes({
+                          boxes: boxes.map((t, i) => i === index ? {
+                            ...t,
+                            title: newTitle
+                          } : t)
+                        });
+                      },
+                      type: "text"
+                    })
+                  })]
+                }), attributes.isChecked && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  class: "dmb-subfield",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                    class: "dmb-label",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                      for: "boxTitle2",
+                      children: "Title/Second Line"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+                      children: "Adds a second line to the title title. I can hold up one word or multiple words with a maximum of 10 characters."
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                    class: "dmb-input",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+                      id: "boxTitle2",
+                      value: box.title2,
+                      onChange: event => {
+                        const newTitle2 = event.target.value;
+                        setAttributes({
+                          boxes: boxes.map((t, i) => i === index ? {
+                            ...t,
+                            title2: newTitle2
+                          } : t)
+                        });
+                      },
+                      type: "text"
+                    })
+                  })]
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                class: "dmb-field",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  class: "dmb-label",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                    for: "boxDescription",
+                    children: "Box Description"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+                    children: "Describes the box in around 56 characters. This section is usually composed by one or two lines."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                  class: "dmb-input",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(RichText, {
+                    id: "boxDescription",
+                    value: box.description,
+                    onChange: description => {
+                      const newDescription = description;
+                      setAttributes({
+                        boxes: boxes.map((t, i) => i === index ? {
+                          ...t,
+                          description: newDescription
+                        } : t)
+                      });
+                    },
+                    placeholder: "Enter box description...",
+                    rows: "5"
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                class: "dmb-field dmb-subfield--has-btn",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  class: "dmb-label",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                    for: "heroImage",
+                    children: "Box Image"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+                    children: "The images uploaded will be displayed under the text on mobile and next to the text on desktop. The image will be displayed as a background."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                  class: "dmb-input",
+                  children: !box.imageUrl ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(MediaUpload, {
+                    onSelect: media => handleImageSelect(media, index),
+                    allowedTypes: ["image"],
+                    render: ({
+                      open
+                    }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Button, {
+                      className: "dmb-block-btn",
+                      onClick: open,
+                      children: "Select Image"
+                    })
+                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                    class: "dmb-selected-image-wrap",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+                      src: box.imageUrl,
+                      class: "dmb-selected-image"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                      className: "dmb-selected-image-image__btn-wrapper",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(MediaUpload, {
+                        onSelect: media => handleImageSelect(media, index),
+                        allowedTypes: ["image"],
+                        render: ({
+                          open
+                        }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Button, {
+                          className: "dmb-block-btn dmb-block-btn--select",
+                          onClick: open,
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                            class: "sr-only",
+                            children: "Select Image"
+                          })
+                        })
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Button, {
+                        className: "dmb-block-btn dmb-block-btn--remove",
+                        onClick: () => {
+                          const newboxes = boxes.map((box, i) => {
+                            return i === index ? {
+                              ...box,
+                              imageUrl: ""
+                            } : box;
+                          });
+                          setAttributes({
+                            boxes: newboxes
+                          });
+                        },
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                          class: "sr-only",
+                          children: "Remove Image"
+                        })
+                      })]
+                    })]
+                  })
+                })]
+              })]
+            })]
+          }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "dmb-field__header",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              className: "dmb-label",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                htmlFor: "addbox",
+                children: "Boxes"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+                children: "Add a box, which consist in a section that holds a title, a description on top of a solid background, next to an image."
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "dmb-input",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Button, {
+                onClick: addbox,
+                className: "dmb-block-btn dmb-block-btn--icon dmb-block-btn--icon-plus",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                  children: "Add a Box"
+                })
+              })
+            })]
+          })]
+        })]
+      })]
+    });
+  },
+  save({
+    attributes
+  }) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("section", {
+      className: "diagonal",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "container",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+          children: attributes.boxesTitle
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "diagonal__container",
+        children: attributes.boxes.map((box, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "diagonal__box",
+          style: {
+            backgroundImage: `url(${box.imageUrl})`
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "container",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                className: "block",
+                children: box.title
+              }), attributes.isChecked && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                className: "block",
+                children: box.title2
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+              children: box.description
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "diagonal__image",
+            style: {
+              backgroundImage: `url(${box.imageUrl})`
+            }
+          })]
+        }))
+      })]
     });
   }
 });
