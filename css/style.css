@@ -751,12 +751,6 @@ a.btn--icon--resume-gold:after {
 .diagonal__box {
   background-color: #323550;
   margin-bottom: 1.25rem;
-  padding: 3.75rem 0 0;
-}
-@media (max-width: 768px) {
-  .diagonal__box {
-    background-image: none !important;
-  }
 }
 @media (min-width: 768px) {
   .diagonal__box {
@@ -764,7 +758,9 @@ a.btn--icon--resume-gold:after {
     background-repeat: no-repeat;
     background-size: contain;
     margin-bottom: 1.875rem;
-    padding: 3.75rem 1.25rem;
+    padding: 0;
+    display: flex;
+    align-items: stretch;
   }
 }
 @media (min-width: 1024px) {
@@ -783,203 +779,70 @@ a.btn--icon--resume-gold:after {
   flex-direction: column;
   align-items: flex-end;
 }
-@media (min-width: 768px) {
-  .diagonal__box p {
-    width: 60%;
+
+.diagonal__text {
+  padding-top: 3.75rem;
+  padding-bottom: 2.5rem;
+  padding-right: calc(calc(100vw - 90%)/2);
+}
+@media (min-width: 480px) {
+  .diagonal__text {
+    padding-right: calc(calc(100vw - 400px)/2);
   }
 }
-@media (min-width: 1024px) {
-  .diagonal__box p {
+@media (min-width: 768px) {
+  .diagonal__text {
+    flex: 1;
+    padding-top: 3.75rem;
+    padding-bottom: 3.75rem;
+    padding-right: 0;
     width: 50%;
   }
 }
-.diagonal__box .diagonal__image {
-  background-position: bottom center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 100%;
-  height: 175px;
-}
-@media (min-width: 768px) {
-  .diagonal__box .diagonal__image {
-    display: none;
+@media (min-width: 0) {
+  .diagonal__text {
+    padding-left: calc(calc(100vw - 90%)/2);
   }
 }
-
-.capabilities__box--troubleshooting {
-  padding-bottom: calc(175px + 2rem);
-}
-.capabilities__box--troubleshooting:before {
-  content: "";
-  background-image: url("../../danielmb/images/backgrounds/bg-code-mobile@2x.jpg");
-  background-position: bottom center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: 175px;
+@media (min-width: 480px) {
+  .diagonal__text {
+    padding-left: calc(calc(100vw - 400px)/2);
+  }
 }
 @media (min-width: 768px) {
-  .capabilities__box--troubleshooting {
-    background-image: url("../../danielmb/images/backgrounds/bg-code@2x.png");
-    background-position: center right -275px;
-    background-size: contain;
-    padding: 3.75rem 1.25rem;
-  }
-  .capabilities__box--troubleshooting:before {
-    display: none;
+  .diagonal__text {
+    padding-left: calc(calc(100vw - 688px)/2);
   }
 }
 @media (min-width: 1024px) {
-  .capabilities__box--troubleshooting {
-    background-position: center right -100px;
+  .diagonal__text {
+    padding-left: calc(calc(100vw - 944px)/2);
   }
 }
 @media (min-width: 1274px) {
-  .capabilities__box--troubleshooting {
-    background-position: center right;
+  .diagonal__text {
+    padding-left: calc(calc(100vw - 1194px)/2);
   }
+}
+@media (min-width: 1548px) {
+  .diagonal__text {
+    padding-left: calc(calc(100vw - 1468px)/2);
+  }
+}
+
+.diagonal__image {
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 175px;
 }
 @media (min-width: 768px) {
-  .capabilities__box--troubleshooting p {
-    width: 60%;
-  }
-}
-@media (min-width: 1024px) {
-  .capabilities__box--troubleshooting p {
+  .diagonal__image {
+    clip-path: polygon(20% 0%, 100% 0, 100% 100%, 0% 100%);
+    height: auto;
     width: 50%;
-  }
-}
-
-.capabilities__box--designskills {
-  padding-bottom: calc(175px + 2rem);
-}
-.capabilities__box--designskills:before {
-  content: "";
-  background-image: url("../../danielmb/images/backgrounds/bg-designs-mobile@2x.jpg");
-  background-position: bottom center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: 175px;
-}
-@media (min-width: 768px) {
-  .capabilities__box--designskills {
-    background-image: url("../../danielmb/images/backgrounds/bg-designs@2x.png");
-    background-position: center left -357px;
-    background-size: contain;
-    padding: 3.75rem 1.25rem;
-  }
-  .capabilities__box--designskills:before {
-    display: none;
-  }
-}
-@media (min-width: 1024px) {
-  .capabilities__box--designskills {
-    background-position: center left -150px;
-  }
-}
-@media (min-width: 1274px) {
-  .capabilities__box--designskills {
-    background-position: center left -50px;
-  }
-}
-.capabilities__box--designskills .container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-.capabilities__box--designskills h4 {
-  text-align: right;
-}
-@media (min-width: 768px) {
-  .capabilities__box--designskills h4 {
-    text-align: left;
-    width: 60%;
-  }
-}
-@media (min-width: 1024px) {
-  .capabilities__box--designskills h4 {
-    width: 45%;
-  }
-}
-@media (min-width: 1274px) {
-  .capabilities__box--designskills h4 {
-    width: 55%;
-  }
-}
-.capabilities__box--designskills p {
-  text-align: right;
-}
-@media (min-width: 768px) {
-  .capabilities__box--designskills p {
-    text-align: left;
-    width: 60%;
-  }
-}
-@media (min-width: 1024px) {
-  .capabilities__box--designskills p {
-    width: 45%;
-  }
-}
-@media (min-width: 1274px) {
-  .capabilities__box--designskills p {
-    width: 55%;
-  }
-}
-
-.capabilities__box--teamwork {
-  padding-bottom: calc(175px + 2rem);
-}
-.capabilities__box--teamwork:before {
-  content: "";
-  background-image: url("../../danielmb/images/backgrounds/bg-team-mobile@2x.jpg");
-  background-position: bottom center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: 175px;
-}
-@media (min-width: 768px) {
-  .capabilities__box--teamwork {
-    background-image: url("../../danielmb/images/backgrounds/bg-team@2x.png");
-    background-position: center right -125px;
-    background-size: contain;
-    padding: 3.75rem 1.25rem;
-  }
-  .capabilities__box--teamwork:before {
-    display: none;
-  }
-}
-@media (min-width: 1024px) {
-  .capabilities__box--teamwork {
-    background-position: center right;
-  }
-}
-@media (min-width: 768px) {
-  .capabilities__box--teamwork p {
-    width: 60%;
-  }
-}
-@media (min-width: 1024px) {
-  .capabilities__box--teamwork p {
-    width: 45%;
-  }
-}
-@media (min-width: 1274px) {
-  .capabilities__box--teamwork p {
-    width: 55%;
+    flex: 1;
   }
 }
 
