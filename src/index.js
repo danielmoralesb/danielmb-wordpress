@@ -819,7 +819,7 @@ registerBlockType("tiles-block/tiles-block", {
         <div
           class={
             tiles.length > 0
-              ? "dmb-block-fields dmb-block-fields--has-tiles"
+              ? "dmb-block-fields dmb-block-fields--show-subfield-group"
               : "dmb-block-fields"
           }
         >
@@ -1091,21 +1091,21 @@ registerBlockType("tiles-block/tiles-block", {
   },
   save({ attributes }) {
     return (
-      <section class="skills-wrapper">
-        <div class="container">
+      <section className="tiles">
+        <div className="container">
           <h2>{attributes.tilesTitle}</h2>
-          <div className="skills">
+          <div className="tiles__container">
             {attributes.tiles.map((tile, index) => (
-              <div class="skills__box">
-                <div class="tiles__item">
+              <div className={`tile ${index > 3 && "hidden"}`}>
+                <div className="tile__inner">
                   <h3>
-                    <span class="block">{tile.title}</span>
+                    <span className="block">{tile.title}</span>
                     {attributes.isChecked && (
-                      <span class="block">{tile.title2}</span>
+                      <span className="block">{tile.title2}</span>
                     )}
                   </h3>
                   <p>{tile.description}</p>
-                  <div className="skills__logos">
+                  <div className="tile__logos">
                     {Array.isArray(tile.images) &&
                       tile.images.map((image, imageIndex) => (
                         <img id={index} key={imageIndex} src={image} />
@@ -1114,7 +1114,433 @@ registerBlockType("tiles-block/tiles-block", {
                 </div>
               </div>
             ))}
+            {attributes.tiles.length > 4 && (
+              <button
+                id="moreTiles"
+                className="btn btn--primary btn--icon btn--icon--plus"
+              >
+                More Skills
+              </button>
+            )}
           </div>
+        </div>
+      </section>
+    );
+  },
+});
+
+registerBlockType("diagonal-block/diagonal-block", {
+  title: "Diagonal Block",
+  description:
+    "Block to create a section with a diagonal background composed by a background color and a background image which holds a title and a description.",
+  icon: "tide",
+  category: "layout",
+  attributes: {
+    isChecked: {
+      type: "boolean",
+      default: false,
+    },
+    boxesTitle: {
+      type: "string",
+    },
+    boxes: {
+      type: "array",
+      default: [],
+      query: {
+        title: {
+          type: "string",
+          source: "text",
+        },
+        title2: {
+          type: "string",
+          source: "text",
+        },
+        description: {
+          type: "string",
+          source: "text",
+        },
+        imageUrl: {
+          type: "string",
+        },
+      },
+    },
+  },
+  edit({ attributes, setAttributes }) {
+    const [isChecked, setIsChecked] = useState(attributes.isChecked);
+    const { boxes, boxesTitle } = attributes;
+
+    function updateboxesTitle(event) {
+      setAttributes({ boxesTitle: event.target.value });
+    }
+
+    const handleCheckboxChange = (event) => {
+      const checked = event.target.checked;
+      setIsChecked(checked);
+      setAttributes({ isChecked: checked });
+    };
+
+    function handleImageSelect(media, index) {
+      const newboxes = boxes.map((box, i) => {
+        return i === index ? { ...box, imageUrl: media.url } : box;
+      });
+      setAttributes({ boxes: newboxes });
+    }
+
+    const addbox = () => {
+      const newboxes = boxes.concat([
+        {
+          title: "",
+          title2: "",
+          description: "",
+          imageUrl: "",
+        },
+      ]);
+      setAttributes({ boxes: newboxes });
+    };
+
+    const removebox = (index) => {
+      const newboxes = boxes.filter((box, i) => i !== index);
+      setAttributes({ boxes: newboxes });
+    };
+
+    const initialIndex = (index) => {
+      return index;
+    };
+
+    const initialState = {
+      isClosed: false,
+      isClosedSub: false,
+      index: null,
+      boxes: [],
+    };
+
+    const reducer = (state, action) => {
+      switch (action.type) {
+        case "INITIALIZE_boxes":
+          return {
+            ...state,
+            boxes: action.boxes,
+          };
+        case "TOGGLE_DMB_BLOCK":
+          return { ...state, isClosed: !state.isClosed };
+        case "TOGGLE_SUB_BLOCK":
+          return {
+            ...state,
+            index: action.index,
+            boxes: state.boxes.map((box, i) =>
+              i === action.index
+                ? { ...box, isClosedSub: !box.isClosedSub }
+                : box
+            ),
+          };
+        default:
+          return state;
+      }
+    };
+
+    const [state, dispatch] = useReducer(
+      reducer,
+      initialState,
+      (initialState) => {
+        return {
+          ...initialState,
+          index:
+            typeof initialState.index === "number"
+              ? initialState.index
+              : initialIndex,
+        };
+      }
+    );
+
+    useEffect(() => {
+      const boxesWithState = boxes.map((box, index) => ({
+        ...box,
+        index,
+        isClosedSub: false,
+      }));
+      dispatch({ type: "INITIALIZE_boxes", boxes: boxesWithState });
+      toggleSubBlock(initialIndex);
+    }, [boxes]);
+
+    const toggleDmbBlock = () => {
+      dispatch({ type: "TOGGLE_DMB_BLOCK" });
+    };
+
+    const toggleSubBlock = (index) => {
+      dispatch({ type: "TOGGLE_SUB_BLOCK", index });
+      initialIndex(index);
+    };
+
+    const blockClassName = `${state.isClosed ? "is-closed" : ""}`;
+
+    return (
+      <div className={`dmb-block dmb-block--boxes ${blockClassName}`}>
+        <div class="dmb-block__header">
+          <h2>Diagonal Component</h2>
+          <button onClick={toggleDmbBlock}>
+            <span class="sr-only">Toggle Panel</span>
+          </button>
+        </div>
+        <div
+          class={
+            boxes.length > 0
+              ? "dmb-block-fields dmb-block-fields--show-subfield-group"
+              : "dmb-block-fields"
+          }
+        >
+          <div className="dmb-field">
+            <div class="dmb-label">
+              <label for="boxesTitle">Component Title</label>
+              <p>Describes the title of the overall boxes component.</p>
+            </div>
+            <div class="dmb-input">
+              <input
+                id="boxesTitle"
+                value={boxesTitle}
+                onChange={updateboxesTitle}
+                type="text"
+              />
+            </div>
+          </div>
+          <div className="dmb-field dmb-field--has-subfield-group">
+            {state.boxes.map((box, index) => (
+              <div
+                key={index}
+                className={`dmb-subfield-group ${
+                  box.isClosedSub && box.index === index ? "is-sub-closed" : ""
+                }`}
+              >
+                <div class="dmb-subfield__header">
+                  <div className="dmb-subfield__options">
+                    <h3>Box {index + 1}</h3>
+                    <button
+                      onClick={() => removebox(index)}
+                      className="dmb-block-btn dmb-block-btn--remove"
+                    >
+                      Remove box
+                    </button>
+                  </div>
+                  <button
+                    id={index}
+                    onClick={() => toggleSubBlock(index)}
+                    className="dmb-block-btn dmb-block-btn--toggle"
+                  >
+                    <span class="sr-only">Toggle Sub Panel</span>
+                  </button>
+                </div>
+                <div class="dmb-subfield__fields">
+                  <div className="dmb-field">
+                    <div class="dmb-label">
+                      <label for="boxTitleLines">
+                        Does the Title have multiple lines?
+                      </label>
+                      <p>
+                        The title can have one or two lines, determining the
+                        amount of lines the title has, allows the settings to
+                        adjust properly.
+                      </p>
+                    </div>
+                    <div class="dmb-input">
+                      <input
+                        id="boxTitleLines"
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="dmb-field dmb-field--has-subfield">
+                    <div class="dmb-subfield">
+                      <div class="dmb-label">
+                        <label for="boxTitle">Title</label>
+                        <p>
+                          Describes the title of the box in one line, usually
+                          composed by one word or two with a maximum of 10
+                          characters.
+                        </p>
+                      </div>
+                      <div class="dmb-input">
+                        <input
+                          id="boxTitle"
+                          value={box.title}
+                          onChange={(event) => {
+                            const newTitle = event.target.value;
+                            setAttributes({
+                              boxes: boxes.map((t, i) =>
+                                i === index ? { ...t, title: newTitle } : t
+                              ),
+                            });
+                          }}
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    {attributes.isChecked && (
+                      <div class="dmb-subfield">
+                        <div class="dmb-label">
+                          <label for="boxTitle2">Title/Second Line</label>
+                          <p>
+                            Adds a second line to the title title. I can hold up
+                            one word or multiple words with a maximum of 10
+                            characters.
+                          </p>
+                        </div>
+                        <div class="dmb-input">
+                          <input
+                            id="boxTitle2"
+                            value={box.title2}
+                            onChange={(event) => {
+                              const newTitle2 = event.target.value;
+                              setAttributes({
+                                boxes: boxes.map((t, i) =>
+                                  i === index ? { ...t, title2: newTitle2 } : t
+                                ),
+                              });
+                            }}
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div class="dmb-field">
+                    <div class="dmb-label">
+                      <label for="boxDescription">Box Description</label>
+                      <p>
+                        Describes the box in around 56 characters. This section
+                        is usually composed by one or two lines.
+                      </p>
+                    </div>
+                    <div class="dmb-input">
+                      <RichText
+                        id="boxDescription"
+                        value={box.description}
+                        onChange={(description) => {
+                          const newDescription = description;
+                          setAttributes({
+                            boxes: boxes.map((t, i) =>
+                              i === index
+                                ? { ...t, description: newDescription }
+                                : t
+                            ),
+                          });
+                        }}
+                        placeholder="Enter box description..."
+                        rows="5"
+                      />
+                    </div>
+                  </div>
+                  <div class="dmb-field dmb-subfield--has-btn">
+                    <div class="dmb-label">
+                      <label for="heroImage">Box Image</label>
+                      <p>
+                        The images uploaded will be displayed under the text on
+                        mobile and next to the text on desktop. The image will
+                        be displayed as a background.
+                      </p>
+                    </div>
+                    <div class="dmb-input">
+                      {!box.imageUrl ? (
+                        <MediaUpload
+                          onSelect={(media) => handleImageSelect(media, index)}
+                          allowedTypes={["image"]}
+                          render={({ open }) => (
+                            <Button className="dmb-block-btn" onClick={open}>
+                              Select Image
+                            </Button>
+                          )}
+                        />
+                      ) : (
+                        <div class="dmb-selected-image-wrap">
+                          <img src={box.imageUrl} class="dmb-selected-image" />
+                          <div className="dmb-selected-image-image__btn-wrapper">
+                            <MediaUpload
+                              onSelect={(media) =>
+                                handleImageSelect(media, index)
+                              }
+                              allowedTypes={["image"]}
+                              render={({ open }) => (
+                                <Button
+                                  className="dmb-block-btn dmb-block-btn--select"
+                                  onClick={open}
+                                >
+                                  <span class="sr-only">Select Image</span>
+                                </Button>
+                              )}
+                            />
+                            <Button
+                              className="dmb-block-btn dmb-block-btn--remove"
+                              onClick={() => {
+                                const newboxes = boxes.map((box, i) => {
+                                  return i === index
+                                    ? {
+                                        ...box,
+                                        imageUrl: "",
+                                      }
+                                    : box;
+                                });
+                                setAttributes({ boxes: newboxes });
+                              }}
+                            >
+                              <span class="sr-only">Remove Image</span>
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="dmb-field__header">
+              <div className="dmb-label">
+                <label htmlFor="addbox">Boxes</label>
+                <p>
+                  Add a box, which consist in a section that holds a title, a
+                  description on top of a solid background, next to an image.
+                </p>
+              </div>
+              <div className="dmb-input">
+                <Button
+                  onClick={addbox}
+                  className="dmb-block-btn dmb-block-btn--icon dmb-block-btn--icon-plus"
+                >
+                  <span>Add a Box</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  },
+  save({ attributes }) {
+    return (
+      <section className="diagonal">
+        <div className="container">
+          <h2>{attributes.boxesTitle}</h2>
+        </div>
+        <div className="diagonal__container">
+          {attributes.boxes.map((box, index) => (
+            <div
+              className="diagonal__box"
+              style={{ backgroundImage: `url(${box.imageUrl})` }}
+            >
+              <div className="container">
+                <h4>
+                  <span className="block">{box.title}</span>
+                  {attributes.isChecked && (
+                    <span className="block">{box.title2}</span>
+                  )}
+                </h4>
+                <p>{box.description}</p>
+              </div>
+              <div
+                className="diagonal__image"
+                style={{ backgroundImage: `url(${box.imageUrl})` }}
+              ></div>
+            </div>
+          ))}
         </div>
       </section>
     );

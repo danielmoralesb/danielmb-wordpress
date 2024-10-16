@@ -119,20 +119,10 @@ h6 {
         outline: 2px solid $brand-primary-light;
       }
     }
-
-    &.dmb-block-btn--remove {
-      background-color: transparent;
-      color: $red-light;
-      padding: 0;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
 }
 
-.dmb-block-fields--has-tiles .dmb-field--has-subfield-group {
+.dmb-block-fields--show-subfield-group .dmb-field--has-subfield-group {
   .dmb-block-btn--icon {
     span {
       display: none;
@@ -183,6 +173,10 @@ h6 {
       .dmb-block--tiles & {
         content: "\f509";
       }
+
+      .dmb-block--diagonal & {
+        content: "\f10d";
+      }
     }
   }
 
@@ -230,7 +224,7 @@ h6 {
   &:not(:last-of-type) {
     border-bottom: 1px solid $light-gray;
 
-    .dmb-block-fields--has-tiles & {
+    .dmb-block-fields--show-subfield-group & {
       border-bottom: none;
     }
   }
@@ -266,7 +260,7 @@ h6 {
     grid-template-columns: 1fr 1.25fr;
   }
 
-  .dmb-block-fields--has-tiles .dmb-field--has-subfield-group & {
+  .dmb-block-fields--show-subfield-group .dmb-field--has-subfield-group & {
     display: flex;
     justify-content: space-between;
   }
@@ -291,6 +285,15 @@ h6 {
 
   .dmb-block-btn--remove {
     visibility: hidden;
+    background-color: transparent;
+    color: $red-light;
+    padding: 0;
+
+    &:hover {
+      background-color: transparent;
+      color: $red-light;
+      text-decoration: underline;
+    }
   }
 
   &:hover {
