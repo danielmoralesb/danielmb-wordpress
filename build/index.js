@@ -1315,6 +1315,10 @@ registerBlockType("diagonal-block/diagonal-block", {
         },
         imageUrl: {
           type: "string"
+        },
+        isFlipped: {
+          type: "boolean",
+          default: false
         }
       }
     }
@@ -1324,6 +1328,7 @@ registerBlockType("diagonal-block/diagonal-block", {
     setAttributes
   }) {
     const [isChecked, setIsChecked] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(attributes.isChecked);
+    const [isCheckedFlipping, setIsCheckedFlipping] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(attributes.isChecked);
     const {
       boxes,
       boxesTitle
@@ -1351,12 +1356,26 @@ registerBlockType("diagonal-block/diagonal-block", {
         boxes: newboxes
       });
     }
+    const handleFlipping = (event, index) => {
+      const checked = event.target.checked;
+      setIsCheckedFlipping(checked);
+      const newboxes = boxes.map((box, i) => {
+        return i === index ? {
+          ...box,
+          isFlipped: checked
+        } : box;
+      });
+      setAttributes({
+        boxes: newboxes
+      });
+    };
     const addbox = () => {
       const newboxes = boxes.concat([{
         title: "",
         title2: "",
         description: "",
-        imageUrl: ""
+        imageUrl: "",
+        isFlipped: false
       }]);
       setAttributes({
         boxes: newboxes
@@ -1660,6 +1679,25 @@ registerBlockType("diagonal-block/diagonal-block", {
                     })]
                   })
                 })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                className: "dmb-field",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  class: "dmb-label",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                    for: "boxFlipping",
+                    children: "Flip the content of the box?"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+                    children: "The content of the box can be flipped horizontally to display the image on the left side and the text on the right side."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                  class: "dmb-input",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+                    id: "boxFlipping",
+                    type: "checkbox",
+                    checked: isCheckedFlipping,
+                    onChange: () => handleFlipping(event, index)
+                  })
+                })]
               })]
             })]
           }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -1700,7 +1738,7 @@ registerBlockType("diagonal-block/diagonal-block", {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "diagonal__container",
         children: attributes.boxes.map((box, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-          className: "diagonal__box",
+          className: `diagonal__box ${box.isFlipped === true && "diagonal__box--flipped"}`,
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
             className: "diagonal__text",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
@@ -1720,7 +1758,7 @@ registerBlockType("diagonal-block/diagonal-block", {
               backgroundImage: `url(${box.imageUrl})`
             }
           })]
-        }))
+        }, index))
       })]
     });
   }
