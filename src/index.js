@@ -1162,11 +1162,18 @@ registerBlockType("diagonal-block/diagonal-block", {
         imageUrl: {
           type: "string",
         },
+        isFlipped: {
+          type: "boolean",
+          default: false,
+        },
       },
     },
   },
   edit({ attributes, setAttributes }) {
     const [isChecked, setIsChecked] = useState(attributes.isChecked);
+    const [isCheckedFlipping, setIsCheckedFlipping] = useState(
+      attributes.isChecked
+    );
     const { boxes, boxesTitle } = attributes;
 
     function updateboxesTitle(event) {
@@ -1186,6 +1193,16 @@ registerBlockType("diagonal-block/diagonal-block", {
       setAttributes({ boxes: newboxes });
     }
 
+    const handleFlipping = (event, index) => {
+      const checked = event.target.checked;
+      setIsCheckedFlipping(checked);
+
+      const newboxes = boxes.map((box, i) => {
+        return i === index ? { ...box, isFlipped: checked } : box;
+      });
+      setAttributes({ boxes: newboxes });
+    };
+
     const addbox = () => {
       const newboxes = boxes.concat([
         {
@@ -1193,6 +1210,7 @@ registerBlockType("diagonal-block/diagonal-block", {
           title2: "",
           description: "",
           imageUrl: "",
+          isFlipped: false,
         },
       ]);
       setAttributes({ boxes: newboxes });
@@ -1489,6 +1507,26 @@ registerBlockType("diagonal-block/diagonal-block", {
                       )}
                     </div>
                   </div>
+                  <div className="dmb-field">
+                    <div class="dmb-label">
+                      <label for="boxFlipping">
+                        Flip the content of the box?
+                      </label>
+                      <p>
+                        The content of the box can be flipped horizontally to
+                        display the image on the left side and the text on the
+                        right side.
+                      </p>
+                    </div>
+                    <div class="dmb-input">
+                      <input
+                        id="boxFlipping"
+                        type="checkbox"
+                        checked={isCheckedFlipping}
+                        onChange={() => handleFlipping(event, index)}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -1522,7 +1560,12 @@ registerBlockType("diagonal-block/diagonal-block", {
         </div>
         <div className="diagonal__container">
           {attributes.boxes.map((box, index) => (
-            <div className="diagonal__box">
+            <div
+              key={index}
+              className={`diagonal__box ${
+                box.isFlipped === true && "diagonal__box--flipped"
+              }`}
+            >
               <div className="diagonal__text">
                 <h4>
                   <span className="block">{box.title}</span>

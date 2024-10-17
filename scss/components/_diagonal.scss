@@ -25,7 +25,6 @@
     background-repeat: no-repeat;
     background-size: contain;
     margin-bottom: $margin * 1.5;
-    // padding: $padding * 3 $padding;
     padding: 0;
     display: flex;
     align-items: stretch;
@@ -40,11 +39,9 @@
     min-height: 400px;
   }
 
-  &.diagonal__box--flip {
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
+  &.diagonal__box--flipped {
+    @include min-screen("md") {
+      flex-direction: row-reverse;
     }
   }
 }
@@ -66,8 +63,7 @@
     flex: 1;
     padding-top: $padding * 3;
     padding-bottom: $padding * 3;
-    padding-right: 0;
-    width: 50%;
+    padding-right: $padding;
   }
 
   @each $breakpoint, $max-width in $container-max-widths {
@@ -75,6 +71,23 @@
       padding-left: calc(
         math.div(calc(100vw - map-get($container-max-widths, $breakpoint)), 2)
       );
+    }
+  }
+
+  .diagonal__box--flipped & {
+    text-align: right;
+
+    @include min-screen("md") {
+      text-align: left;
+      padding-left: $padding;
+    }
+
+    @each $breakpoint, $max-width in $container-max-widths {
+      @include min-screen($breakpoint) {
+        padding-right: calc(
+          math.div(calc(100vw - map-get($container-max-widths, $breakpoint)), 2)
+        );
+      }
     }
   }
 }
@@ -89,7 +102,12 @@
   @include min-screen("md") {
     clip-path: polygon(20% 0%, 100% 0, 100% 100%, 0% 100%);
     height: auto;
-    width: 50%;
     flex: 1;
+
+    .diagonal__box--flipped & {
+      @include min-screen("md") {
+        clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+      }
+    }
   }
 }
