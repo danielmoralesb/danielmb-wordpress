@@ -297,6 +297,21 @@ h6 {
   }
 
   &:hover {
+    position: relative;
+
+    &::before {
+      content: "";
+      background-color: rgba($color: $brand-primary-light, $alpha: 0.25);
+      mask: url("#{$path-img}/icons/icon-drag.svg");
+      mask-repeat: no-repeat;
+      background-repeat: no-repeat;
+      position: absolute;
+      left: $padding * 0.5;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 30px;
+    }
     .dmb-block-btn--remove {
       visibility: visible;
     }
