@@ -1166,15 +1166,28 @@ registerBlockType("diagonal-block/diagonal-block", {
           type: "boolean",
           default: false,
         },
+        order: {
+          type: "number",
+          default: 0,
+        },
+        // isClosedSub: {
+        //   type: "boolean",
+        //   default: false,
+        // },
       },
     },
   },
   edit({ attributes, setAttributes }) {
     const [isChecked, setIsChecked] = useState(attributes.isChecked);
     const [isCheckedFlipping, setIsCheckedFlipping] = useState(
-      attributes.isChecked
+      attributes.boxes.map((box) => box.isFlipped)
     );
+    const [dragId, setDragId] = useState();
     const { boxes, boxesTitle } = attributes;
+
+    useEffect(() => {
+      setIsCheckedFlipping(attributes.boxes.map((box) => box.isFlipped));
+    }, [attributes.boxes]);
 
     function updateboxesTitle(event) {
       setAttributes({ boxesTitle: event.target.value });
@@ -1195,22 +1208,27 @@ registerBlockType("diagonal-block/diagonal-block", {
 
     const handleFlipping = (event, index) => {
       const checked = event.target.checked;
-      setIsCheckedFlipping(checked);
+      const newIsCheckedFlipping = [...isCheckedFlipping];
+      newIsCheckedFlipping[index] = checked;
+      setIsCheckedFlipping(newIsCheckedFlipping);
 
-      const newboxes = boxes.map((box, i) => {
+      const newboxes = attributes.boxes.map((box, i) => {
         return i === index ? { ...box, isFlipped: checked } : box;
       });
       setAttributes({ boxes: newboxes });
     };
 
+    // Stored State
     const addbox = () => {
-      const newboxes = boxes.concat([
+      const newboxes = state.boxes.concat([
         {
           title: "",
           title2: "",
           description: "",
           imageUrl: "",
           isFlipped: false,
+          order: state.boxes.length,
+          isClosedSub: false,
         },
       ]);
       setAttributes({ boxes: newboxes });
@@ -1221,15 +1239,15 @@ registerBlockType("diagonal-block/diagonal-block", {
       setAttributes({ boxes: newboxes });
     };
 
-    const initialIndex = (index) => {
-      return index;
-    };
+    // const initialIndex = (index) => {
+    //   return index;
+    // };
 
     const initialState = {
-      isClosed: false,
-      isClosedSub: false,
-      index: null,
       boxes: [],
+      isClosed: false,
+      index: null,
+      dragId: null,
     };
 
     const reducer = (state, action) => {
@@ -1242,14 +1260,21 @@ registerBlockType("diagonal-block/diagonal-block", {
         case "TOGGLE_DMB_BLOCK":
           return { ...state, isClosed: !state.isClosed };
         case "TOGGLE_SUB_BLOCK":
+          console.log("State", state);
+          const index = action.index;
+          const updatedBoxes = state.boxes.map((box, i) =>
+            i === index ? { ...box, isClosedSub: !box.isClosedSub } : box
+          );
+          console.log("Updated boxes", updatedBoxes);
           return {
             ...state,
-            index: action.index,
-            boxes: state.boxes.map((box, i) =>
-              i === action.index
-                ? { ...box, isClosedSub: !box.isClosedSub }
-                : box
-            ),
+            index: index,
+            boxes: updatedBoxes,
+          };
+        case "SET_DRAG_ID":
+          return {
+            ...state,
+            dragId: action.index,
           };
         default:
           return state;
@@ -1260,25 +1285,41 @@ registerBlockType("diagonal-block/diagonal-block", {
       reducer,
       initialState,
       (initialState) => {
-        return {
-          ...initialState,
-          index:
-            typeof initialState.index === "number"
-              ? initialState.index
-              : initialIndex,
-        };
+        const storedState = localStorage.getItem("appState");
+        if (storedState) {
+          const parsedState = JSON.parse(storedState);
+          return {
+            ...parsedState,
+          };
+        }
+        console.log("Initial state", initialState);
+        return initialState;
       }
     );
 
     useEffect(() => {
-      const boxesWithState = boxes.map((box, index) => ({
+      // Read appState from localStorage
+      const storedState = localStorage.getItem("appState");
+      let parsedState = { boxes: [] };
+
+      if (storedState) {
+        parsedState = JSON.parse(storedState);
+      }
+
+      // Merge isClosedSub data with attributes.boxes
+      const boxesWithState = attributes.boxes.map((box, index) => ({
         ...box,
         index,
-        isClosedSub: false,
+        isClosedSub: parsedState.boxes[index]?.isClosedSub || false, // Use isClosedSub from localStorage or default to false
       }));
+
+      // Dispatch action to initialize boxes
       dispatch({ type: "INITIALIZE_boxes", boxes: boxesWithState });
-      toggleSubBlock(initialIndex);
-    }, [boxes]);
+    }, [attributes.boxes]);
+
+    useEffect(() => {
+      localStorage.setItem("appState", JSON.stringify(state));
+    }, [state]);
 
     const toggleDmbBlock = () => {
       dispatch({ type: "TOGGLE_DMB_BLOCK" });
@@ -1286,10 +1327,52 @@ registerBlockType("diagonal-block/diagonal-block", {
 
     const toggleSubBlock = (index) => {
       dispatch({ type: "TOGGLE_SUB_BLOCK", index });
-      initialIndex(index);
     };
 
     const blockClassName = `${state.isClosed ? "is-closed" : ""}`;
+
+    const handleDragStart = (event, index) => {
+      dispatch({ type: "SET_DRAG_ID", index });
+      //   event.dataTransfer.setData("text/plain", index);
+      //   event.dataTransfer.effectAllowed = "move";
+      //   console.log("Dragged item", dragId);
+      console.log("Dragged item", dragId);
+      console.log("Boxes", JSON.stringify(boxes));
+    };
+
+    const handleDragOver = (event) => {
+      event.preventDefault();
+      console.log("Dragged over", event);
+    };
+
+    const handleDrop = (event) => {
+      console.log("Handle drop", event);
+      const dragBox = boxes.find((box) => box.id === dragId);
+      const dropBox = boxes.find((box) => box.id === event.currentTarget.id);
+
+      const dragBoxOrder = dragBox.order;
+      const dropBoxOrder = dropBox.order;
+
+      const newBoxState = boxes.map((box) => {
+        if (box.id === dragId) {
+          return { ...box, order: dropBoxOrder };
+        }
+        if (box.id === event.currentTarget.id) {
+          return { ...box, order: dragBoxOrder };
+        }
+        return box;
+      });
+
+      setAttributes({ boxes: newBoxState });
+      console.log("Dropped item", event.currentTarget.id);
+      console.log("New box state", newBoxState);
+      console.log("Dragged item", dragId);
+      console.log("Dragged item order", dragBoxOrder);
+      console.log("Dropped item order", dropBoxOrder);
+      console.log("Drop box", dropBox);
+      console.log("Drag box", dragBox);
+      console.log("Boxes", boxes);
+    };
 
     return (
       <div className={`dmb-block dmb-block--boxes ${blockClassName}`}>
@@ -1327,6 +1410,10 @@ registerBlockType("diagonal-block/diagonal-block", {
                 className={`dmb-subfield-group ${
                   box.isClosedSub && box.index === index ? "is-sub-closed" : ""
                 }`}
+                draggable="true"
+                onDragStart={(event) => handleDragStart(event, index)}
+                onDragOver={(event) => handleDragOver(event)}
+                onDrop={(event) => handleDrop(event, index)}
               >
                 <div class="dmb-subfield__header">
                   <div className="dmb-subfield__options">
@@ -1522,8 +1609,8 @@ registerBlockType("diagonal-block/diagonal-block", {
                       <input
                         id="boxFlipping"
                         type="checkbox"
-                        checked={isCheckedFlipping}
-                        onChange={() => handleFlipping(event, index)}
+                        checked={isCheckedFlipping[index]}
+                        onChange={(event) => handleFlipping(event, index)}
                       />
                     </div>
                   </div>

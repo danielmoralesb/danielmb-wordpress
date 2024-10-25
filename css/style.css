@@ -4008,6 +4008,22 @@ h6.block-editor-inserter__panel-title {
   color: #f61118;
   text-decoration: underline;
 }
+.dmb-subfield__header:hover {
+  position: relative;
+}
+.dmb-subfield__header:hover::before {
+  content: "";
+  background-color: rgba(74, 78, 105, 0.25);
+  mask: url("../../danielmb/images/icons/icon-drag.svg");
+  mask-repeat: no-repeat;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 30px;
+}
 .dmb-subfield__header:hover .dmb-block-btn--remove {
   visibility: visible;
 }
