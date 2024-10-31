@@ -7,6 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "scss-dev": "sass --watch --update --style=expanded scss:css",
     "scss-prod": "sass --no-source-map --style=compressed scss:css",
+    "scss-dev-vendor": "sass --watch --update --style=expanded scss-vendor:css",
+    "scss-prod-vendor": "sass --no-source-map --style=compressed scss-vendor:css",
     "build": "wp-scripts build",
     "start": "wp-scripts start"
   },

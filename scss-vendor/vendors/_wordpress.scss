@@ -4,7 +4,8 @@ html :where(.editor-styles-wrapper) {
   background-color: $dark-white;
 
   ::selection {
-    color: $text-color-light;
+    background-color: $brand-primary-alt;
+    color: $text-color-tertiary;
   }
 }
 
