@@ -111,7 +111,7 @@ const {
 const {
   Button
 } = wp.components;
-registerBlockType("hero-block/hero-block", {
+registerBlockType("danielmb/hero-block", {
   title: "Hero Block",
   description: "Block to create a hero section with a title on the left side and an image on the right side. A description and social platforms on the bottom.",
   icon: "superhero",
@@ -529,7 +529,7 @@ registerBlockType("hero-block/hero-block", {
     });
   }
 });
-registerBlockType("intro-block/intro-block", {
+registerBlockType("danielmb/intro-block", {
   title: "Intro Block",
   description: "Block to create an introduction section with an image, title and description aligned to the center.",
   icon: "align-center",
@@ -778,7 +778,7 @@ registerBlockType("intro-block/intro-block", {
     });
   }
 });
-registerBlockType("tiles-block/tiles-block", {
+registerBlockType("danielmb/tiles-block", {
   title: "Tiles Block",
   description: "Block to create a section with multiple tiles that contain a title, a description and one or multiple images.",
   icon: "grid-view",
@@ -1284,7 +1284,7 @@ registerBlockType("tiles-block/tiles-block", {
     });
   }
 });
-registerBlockType("diagonal-block/diagonal-block", {
+registerBlockType("danielmb/diagonal-block", {
   title: "Diagonal Block",
   description: "Block to create a section with a diagonal background composed by a background color and a background image which holds a title and a description.",
   icon: "tide",
@@ -1405,11 +1405,6 @@ registerBlockType("diagonal-block/diagonal-block", {
         boxes: newboxes
       });
     };
-
-    // const initialIndex = (index) => {
-    //   return index;
-    // };
-
     const initialState = {
       boxes: [],
       isClosed: false,
@@ -1429,13 +1424,11 @@ registerBlockType("diagonal-block/diagonal-block", {
             isClosed: !state.isClosed
           };
         case "TOGGLE_SUB_BLOCK":
-          console.log("State", state);
           const index = action.index;
           const updatedBoxes = state.boxes.map((box, i) => i === index ? {
             ...box,
             isClosedSub: !box.isClosedSub
           } : box);
-          console.log("Updated boxes", updatedBoxes);
           return {
             ...state,
             index: index,
@@ -1458,7 +1451,6 @@ registerBlockType("diagonal-block/diagonal-block", {
           ...parsedState
         };
       }
-      console.log("Initial state", initialState);
       return initialState;
     });
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -1548,7 +1540,7 @@ registerBlockType("diagonal-block/diagonal-block", {
       console.log("Boxes", boxes);
     };
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: `dmb-block dmb-block--boxes ${blockClassName}`,
+      className: `dmb-block dmb-block--diagonal ${blockClassName}`,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         class: "dmb-block__header",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {

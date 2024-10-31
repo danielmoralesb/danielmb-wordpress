@@ -165,7 +165,7 @@ add_action('wp_enqueue_scripts', 'danielmb_register_styles');
  */
 function danielmb_add_editor_styles()
 {
-    wp_enqueue_style('danielmb_styles', get_template_directory_uri() . '/css/style.css');
+    wp_enqueue_style('danielmb_styles', get_template_directory_uri() . '/css/style-vendor.css');
 }
 add_action('enqueue_block_editor_assets', 'danielmb_add_editor_styles');
 
@@ -231,7 +231,7 @@ function hero_block_register_block()
     wp_register_script("hero-block-editor", get_template_directory_uri() . "/build/index.js", array("wp-blocks", "wp-editor", "wp-components"));
 
     // Register the block type and associate the scripts and styles
-    register_block_type("hero-block/hero-block", array(
+    register_block_type("danielmb/hero-block", array(
         'editor_script' => 'hero-block-editor',
         'editor_style' => 'hero-block-editor',
         'style' => 'hero-block',
@@ -253,7 +253,7 @@ function intro_block_register_block()
     wp_register_script("intro-block-editor", get_template_directory_uri() . "/build/index.js", array("wp-blocks", "wp-editor", "wp-components"));
 
     // Register the block type and associate the scripts and styles
-    register_block_type("intro-block/intro-block", array(
+    register_block_type("danielmb/intro-block", array(
         'editor_script' => 'intro-block-editor',
         'editor_style' => 'intro-block-editor',
         'style' => 'intro-block',
@@ -274,10 +274,30 @@ function tiles_block_register_block()
     wp_register_script("tiles-block-editor", get_template_directory_uri() . "/build/index.js", array("wp-blocks", "wp-editor", "wp-components"));
 
     // Register the block type and associate the scripts and styles
-    register_block_type("tiles-block/tiles-block", array(
+    register_block_type("danielmb/tiles-block", array(
         'editor_script' => 'tiles-block-editor',
         'editor_style' => 'tiles-block-editor',
         'style' => 'tiles-block',
     ));
 }
 add_action('init', 'tiles_block_register_block');
+
+/**
+ * Registration of Diagonal Block
+ */
+function diagonal_block_register_block()
+{
+    // Register the editor style
+    wp_register_style("diagonal-block-editor", get_template_directory_uri() . "/css/editor.css", array(), filemtime(get_template_directory() . '/css/editor.css'));
+
+    // Register the editor script
+    wp_register_script("diagonal-block-editor", get_template_directory_uri() . "/build/index.js", array("wp-blocks", "wp-editor", "wp-components"));
+
+    // Register the block type and associate the scripts and styles
+    register_block_type("danielmb/diagonal-block", array(
+        'editor_script' => 'diagonal-block-editor',
+        'editor_style' => 'diagonal-block-editor',
+        'style' => 'diagonal-block',
+    ));
+}
+add_action('init', 'diagonal_block_register_block');

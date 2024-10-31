@@ -3,7 +3,7 @@ const { registerBlockType } = wp.blocks;
 const { RichText, MediaUpload } = wp.blockEditor;
 const { Button } = wp.components;
 
-registerBlockType("hero-block/hero-block", {
+registerBlockType("danielmb/hero-block", {
   title: "Hero Block",
   description:
     "Block to create a hero section with a title on the left side and an image on the right side. A description and social platforms on the bottom.",
@@ -390,7 +390,7 @@ registerBlockType("hero-block/hero-block", {
   },
 });
 
-registerBlockType("intro-block/intro-block", {
+registerBlockType("danielmb/intro-block", {
   title: "Intro Block",
   description:
     "Block to create an introduction section with an image, title and description aligned to the center.",
@@ -606,7 +606,7 @@ registerBlockType("intro-block/intro-block", {
   },
 });
 
-registerBlockType("tiles-block/tiles-block", {
+registerBlockType("danielmb/tiles-block", {
   title: "Tiles Block",
   description:
     "Block to create a section with multiple tiles that contain a title, a description and one or multiple images.",
@@ -1129,7 +1129,7 @@ registerBlockType("tiles-block/tiles-block", {
   },
 });
 
-registerBlockType("diagonal-block/diagonal-block", {
+registerBlockType("danielmb/diagonal-block", {
   title: "Diagonal Block",
   description:
     "Block to create a section with a diagonal background composed by a background color and a background image which holds a title and a description.",
@@ -1239,10 +1239,6 @@ registerBlockType("diagonal-block/diagonal-block", {
       setAttributes({ boxes: newboxes });
     };
 
-    // const initialIndex = (index) => {
-    //   return index;
-    // };
-
     const initialState = {
       boxes: [],
       isClosed: false,
@@ -1260,12 +1256,10 @@ registerBlockType("diagonal-block/diagonal-block", {
         case "TOGGLE_DMB_BLOCK":
           return { ...state, isClosed: !state.isClosed };
         case "TOGGLE_SUB_BLOCK":
-          console.log("State", state);
           const index = action.index;
           const updatedBoxes = state.boxes.map((box, i) =>
             i === index ? { ...box, isClosedSub: !box.isClosedSub } : box
           );
-          console.log("Updated boxes", updatedBoxes);
           return {
             ...state,
             index: index,
@@ -1292,7 +1286,6 @@ registerBlockType("diagonal-block/diagonal-block", {
             ...parsedState,
           };
         }
-        console.log("Initial state", initialState);
         return initialState;
       }
     );
@@ -1375,7 +1368,7 @@ registerBlockType("diagonal-block/diagonal-block", {
     };
 
     return (
-      <div className={`dmb-block dmb-block--boxes ${blockClassName}`}>
+      <div className={`dmb-block dmb-block--diagonal ${blockClassName}`}>
         <div class="dmb-block__header">
           <h2>Diagonal Component</h2>
           <button onClick={toggleDmbBlock}>
